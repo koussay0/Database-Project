@@ -29,14 +29,42 @@ INSERT INTO classrooms (building_id, room_number, capacity) VALUES
 
 -- TIMESLOTS
 INSERT INTO timeslots (day, start_time, end_time) VALUES
-    ('M', '08:00:00', '09:15:00')
-    ;
+    ('F', '08:00:00', '08:50:00'),
+    ('M', '08:00:00', '08:50:00'),
+    ('W', '08:00:00', '08:50:00'),
+    ('F', '09:00:00', '09:50:00'),
+    ('M', '09:00:00', '09:50:00'),
+    ('W', '09:00:00', '09:50:00'),
+    ('F', '11:00:00', '11:50:00'),
+    ('M', '11:00:00', '11:50:00'),
+    ('W', '11:00:00', '11:50:00'),
+    ('F', '13:00:00', '13:50:00'),
+    ('M', '13:00:00', '13:50:00'),
+    ('W', '13:00:00', '13:50:00'),
+    ('R', '10:30:00', '11:45:00'),
+    ('T', '10:30:00', '11:45:00'),
+    ('R', '14:30:00', '15:45:00'),
+    ('T', '14:30:00', '15:45:00'),
+    ('F', '16:00:00', '16:50:00'),
+    ('M', '16:00:00', '16:50:00'),
+    ('W', '16:00:00', '16:50:00'),
+    ('W', '10:00:00', '12:30:00');
 
 -- COURSES
 INSERT INTO courses (dept_id, course_number, title, credits) VALUES
-    (1, 'MATH-101', 'Calculus I', 4),
-    (1, 'MATH-201', 'Calculus II', 4)
-    ;
+    (1, 'BIO-101', 'Intro. to Biology', 4),
+    (1, 'BIO-301', 'Genetics', 4),
+    (1, 'BIO-399', 'Computational Biology', 3),
+    (2, 'CS-101', 'Intro. to Computer Science', 4),
+    (2, 'CS-190', 'Game Design', 4),
+    (2, 'CS-315', 'Robotics', 3),
+    (2, 'CS-319', 'Image Processing', 3),
+    (2, 'CS-347', 'Database System Concepts', 3),
+    (3, 'EE-181', 'Intro. to Digital Systems', 3),
+    (4, 'FIN-201', 'Investment Banking', 3),
+    (5, 'HIS-351', 'World History', 3),
+    (6, 'MU-199', 'Music Video Production', 3),
+    (7, 'PHY-101', 'Physical Principles', 4);
 
 -- PREREQUISITES
 INSERT INTO prerequisites (course_id, prereq_id) VALUES
