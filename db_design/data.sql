@@ -1,21 +1,31 @@
--- Sample Data 
+-- Insert University Table Data 
 
 USE university;
 
 -- BUILDINGS
 INSERT INTO buildings (name) VALUES
-    ('Math Building')
-    ;
+    ('Watson'), --ID 1
+    ('Taylor'), --ID 2
+    ('Painter'), --ID 3
+    ('Packard'); --ID 4
 
 -- DEPARTMENTS
 INSERT INTO departments (name, budget, building_id) VALUES
-    ('Math', 500000.00, 1)
-    ;
+    ('Biology', 90000.00, 1), --ID 1
+    ('Comp Sci.', 100000.00, 2),
+    ('Elec. Eng.', 85000.00, 2),
+    ('Finance', 120000.00, 3),
+    ('History', 50000.00, 3),
+    ('Music', 80000.00, 4),
+    ('Physics', 70000.00, 1); -- ID 7
 
 -- CLASSROOMS
 INSERT INTO classrooms (building_id, room_number, capacity) VALUES
-    (1, '101', 30)
-    ;
+    (4, '101', 500),
+    (3, '514', 10),
+    (2, '3128', 70),
+    (1, '100', 30),
+    (1, '120', 50);
 
 -- TIMESLOTS
 INSERT INTO timeslots (day, start_time, end_time) VALUES
