@@ -4,14 +4,14 @@ USE university;
 
 -- BUILDINGS
 INSERT INTO buildings (name) VALUES
-    ('Watson'), --ID 1
-    ('Taylor'), --ID 2
-    ('Painter'), --ID 3
-    ('Packard'); --ID 4
+    ('Watson'), -- ID 1
+    ('Taylor'), -- ID 2
+    ('Painter'), -- ID 3
+    ('Packard'); -- ID 4
 
 -- DEPARTMENTS
 INSERT INTO departments (name, budget, building_id) VALUES
-    ('Biology', 90000.00, 1), --ID 1
+    ('Biology', 90000.00, 1), -- ID 1
     ('Comp Sci.', 100000.00, 2),
     ('Elec. Eng.', 85000.00, 2),
     ('Finance', 120000.00, 3),
@@ -68,13 +68,28 @@ INSERT INTO courses (dept_id, course_number, title, credits) VALUES
 
 -- PREREQUISITES
 INSERT INTO prerequisites (course_id, prereq_id) VALUES
-    (2, 1)  -- Calculus II requires Calculus I
-    ; 
+    (2, 1),
+    (3, 1),
+    (5, 4),
+    (6, 4),
+    (7, 4),
+    (8, 4),
+    (9, 13); 
 
 -- INSTRUCTORS
 INSERT INTO instructors (first_name, last_name, email, salary, dept_id) VALUES
-    ('Bob',   'Smith',   'b.smith@university.edu',   75000.00, 1)
-    ;
+    ('Jack',   'Srinivasan',   'j.srinivasan@university.edu',   65000.00, 2), -- ID 1
+    ('Annabelle',   'Katz',   'a.katz@university.edu',   75000.00, 2),
+    ('Steven',   'Brandt',   's.brandt@university.edu',   92000.00, 2),
+    ('Wendy',   'Wu',   'w.wu@university.edu',   90000.00, 4),
+    ('Phoebe',   'Singh',   'p.singh@university.edu',   80000.00, 4),
+    ('Wolfgang',   'Mozart',   'w.mozart@university.edu',   40000.00, 6),
+    ('Albert',   'Einstein',   'a.einstein@university.edu',   95000.00, 7),
+    ('William',   'Gold',   'w.gold@university.edu',   40000.00, 7),
+    ('Michael',   'El Said',   'm.el-said@university.edu',   60000.00, 5),
+    ('Zackary',   'Califieri',   'z.califieri@university.edu',   62000.00, 5),
+    ('Hannah',   'Crick',   'h.crick@university.edu',   72000.00, 1),
+    ('Yimiko',   'Kim',   'y.kim@university.edu',   62000.00, 3); -- ID 12
 
 -- STUDENTS
 INSERT INTO students (first_name, last_name, email, dept_id) VALUES
