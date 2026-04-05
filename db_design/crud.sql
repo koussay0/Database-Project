@@ -181,3 +181,61 @@ BEGIN
         PRINT 'Section is full. Cannot enroll.'
     END
 END
+
+-- transactions to  assign an instructor to a class, drop a section, give a grade to a section
+
+CREATE PROCEDURE assign_instructor_to_class(
+    IN instructor_id1 INT,
+    IN section_id1 INT)
+BEGIN
+    BEGIN TRANSACTION
+    -- check if the instructor is available
+    IF (SELECT COUNT(*) FROM section WHERE instructor_id = instructor_id1) = 0
+    BEGIN        
+        -- assign the instructor to the section
+        UPDATE section
+        SET instructor_id = instructor_id1
+        WHERE section_id = section_id1
+        COMMIT TRANSACTION
+    END
+    ELSE
+    BEGIN
+        ROLLBACK TRANSACTION
+        PRINT 'instructor is assigned and we cannot perform the operation.'
+    END
+END
+
+CREATE PROCEDURE drop_section(
+    IN section_id1 INT)
+BEGIN
+    BEGIN TRANSACTION   
+    -- delete all enrollments for the section
+    DELETE FROM enrollment
+    WHERE section_id = section_id1
+    -- delete the section
+    DELETE FROM section
+    WHERE section_id = section_id1
+    COMMIT TRANSACTION
+END
+
+CREATE PROCEDURE give_grade(
+    IN student_id1 INT,
+    IN section_id1 INT,
+    IN grade1 VARCHAR(2))
+BEGIN
+    BEGIN TRANSACTION
+    -- check if the student is enrolled in the section
+    IF (SELECT COUNT(*) FROM enrollment WHERE student_id = student_id1 AND section_id = section_id1) > 0
+    BEGIN        
+        -- update the grade for the enrollment
+        UPDATE enrollment
+        SET grade = grade1
+        WHERE student_id = student_id1 AND section_id = section_id1
+        COMMIT TRANSACTION
+    END
+    ELSE
+    BEGIN
+        ROLLBACK TRANSACTION
+        PRINT 'the student is not in the section thus he/she doesnt have a grade.'
+    END
+END
