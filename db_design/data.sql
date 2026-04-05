@@ -31,24 +31,24 @@ INSERT INTO classrooms (building_id, room_number, capacity) VALUES
 INSERT INTO timeslots (day, start_time, end_time) VALUES
     ('F', '08:00:00', '08:50:00'),
     ('M', '08:00:00', '08:50:00'),
-    ('W', '08:00:00', '08:50:00'),
+    ('W', '08:00:00', '08:50:00'), -- ID A (1-3)
     ('F', '09:00:00', '09:50:00'),
     ('M', '09:00:00', '09:50:00'),
-    ('W', '09:00:00', '09:50:00'),
+    ('W', '09:00:00', '09:50:00'), -- ID B (4-6)
     ('F', '11:00:00', '11:50:00'),
     ('M', '11:00:00', '11:50:00'),
-    ('W', '11:00:00', '11:50:00'),
+    ('W', '11:00:00', '11:50:00'), -- ID C (7-9)
     ('F', '13:00:00', '13:50:00'),
     ('M', '13:00:00', '13:50:00'),
-    ('W', '13:00:00', '13:50:00'),
+    ('W', '13:00:00', '13:50:00'), -- ID D (10-12)
     ('R', '10:30:00', '11:45:00'),
-    ('T', '10:30:00', '11:45:00'),
+    ('T', '10:30:00', '11:45:00'), -- ID E (13-14)
     ('R', '14:30:00', '15:45:00'),
-    ('T', '14:30:00', '15:45:00'),
+    ('T', '14:30:00', '15:45:00'), -- ID F (15-16)
     ('F', '16:00:00', '16:50:00'),
     ('M', '16:00:00', '16:50:00'),
-    ('W', '16:00:00', '16:50:00'),
-    ('W', '10:00:00', '12:30:00');
+    ('W', '16:00:00', '16:50:00'), -- ID G (17-19)
+    ('W', '10:00:00', '12:30:00'); -- ID H (20)
 
 -- COURSES
 INSERT INTO courses (dept_id, course_number, title, credits) VALUES
@@ -101,7 +101,7 @@ INSERT INTO students (first_name, last_name, email, dept_id) VALUES
     ('Oliver',   'Levy',    'oliver.levy@university.edu', 7),
     ('Amanda',   'Williams',    'amanda.williams@university.edu', 2),
     ('Franco',   'Sanchez',    'franco.sanchez@university.edu', 6),
-    ('Zara',   'Snow',    'zara.Snow@university.edu', 7),
+    ('Zara',   'Snow',    'zara.snow@university.edu', 7),
     ('Jaxon',   'Brown',    'jaxon.brown@university.edu', 2),
     ('Mika',   'Aoi',    'mika.aoi@university.edu', 3),
     ('Victor',   'Bourikas',    'victor.bourikas@university.edu', 3),
@@ -110,30 +110,92 @@ INSERT INTO students (first_name, last_name, email, dept_id) VALUES
 -- ADVISORS
 INSERT INTO advisors (student_id, instructor_id) VALUES
     (2, 1),  -- Kammi  → Jack
-    (5, ),
-    ;
+    (5, 4),
+    (6, 4),
+    (1, 7),
+    (10, 7),
+    (4, 9),
+    (13, 10),
+    (11, 12),
+    (12, 12);
 
 -- ACCOUNTS
 INSERT INTO accounts (username, password_hash, role) VALUES
     ('admin',       'hashedadminpassword1', 'admin'),
-    ('b.smith',    'hashedinstructorpassword1', 'instructor'),
-    ('ella.jones',     'hashedstudentpassword1', 'student')
-    ;
+    ('j.srinivasan',    'hashedinstructorpassword1', 'instructor'),
+    ('w.wu',    'hashedinstructorpassword2', 'instructor'),
+    ('w.mozart',    'hashedinstructorpassword3', 'instructor'),
+    ('a.einstein',    'hashedinstructorpassword4', 'instructor'),
+    ('m.el-said',    'hashedinstructorpassword5', 'instructor'),
+    ('w.gold',    'hashedinstructorpassword6', 'instructor'),
+    ('a.katz',    'hashedinstructorpassword7', 'instructor'),
+    ('z.califieri',    'hashedinstructorpassword8', 'instructor'),
+    ('p.singh',    'hashedinstructorpassword9', 'instructor'),
+    ('h.crick',    'hashedinstructorpassword10', 'instructor'),
+    ('s.brandt',    'hashedinstructorpassword11', 'instructor'),
+    ('y.kim',    'hashedinstructorpassword12', 'instructor'),
+    ('peter.zhang',     'hashedstudentpassword1', 'student'),
+    ('kammi.shankar',     'hashedstudentpassword2', 'student'),
+    ('elias.brandt',     'hashedstudentpassword3', 'student'),
+    ('randy.chavez',     'hashedstudentpassword4', 'student'),
+    ('claire.peltier',     'hashedstudentpassword5', 'student'),
+    ('oliver.levy',     'hashedstudentpassword6', 'student'),
+    ('amanda.williams',     'hashedstudentpassword7', 'student'),
+    ('franco.sanchez',     'hashedstudentpassword8', 'student'),
+    ('zara.snow',     'hashedstudentpassword9', 'student'),
+    ('jaxon.brown',     'hashedstudentpassword10', 'student'),
+    ('mika.aoi',     'hashedstudentpassword11', 'student'),
+    ('victor.bourikas',     'hashedstudentpassword12', 'student'),
+    ('gio.tanaka',     'hashedstudentpassword13', 'student');
 
 -- STUDENT ACCOUNTS (account_id matches INSERT order above)
 INSERT INTO student_accounts (account_id, student_id) VALUES
-    (3, 1)  -- ella.jones  → Ella Jones
-    ;
+    (14, 1),  -- peter.zhang  → Peter Zhang
+    (15, 2),
+    (16, 3),
+    (17, 4),
+    (18, 5),
+    (19, 6),
+    (20, 7),
+    (21, 8),
+    (22, 9),
+    (23, 10),
+    (24, 11),
+    (25, 12),
+    (26, 13);
 
 -- INSTRUCTOR ACCOUNTS
 INSERT INTO instructor_accounts (account_id, instructor_id) VALUES
-    (2, 1)  -- b.smith → Bob Smith
-    ;
+    (2, 1),  -- j.srinivasan → Jack Srinivasan
+    (3, 2),
+    (4, 3),
+    (5, 4),
+    (6, 5),
+    (7, 6),
+    (8, 7),
+    (9, 8),
+    (10, 9),
+    (11, 10),
+    (12, 11),
+    (13, 12);
 
 -- SECTIONS
 INSERT INTO sections (course_id, classroom_id, timeslot_id, semester, year, capacity) VALUES
-    (1, 1, 1, 'Fall',   2024, 30)  -- MATH101
-    ;
+    (1, 2, 4, 'Summer',   2017, 10),  -- BIO101: sec 1
+    (2, 2, 1, 'Summer',   2018, 10), -- BIO301
+    (4, 1, 20, 'Fall',   2017, 500), -- CS101
+    (4, 1, 15, 'Spring',   2018, 500), -- CS101 Section 2
+    (5, 3, 13, 'Spring',   2017, 70), -- CS190
+    (5, 3, 2, 'Spring',   2017, 70), -- CS190 Section 2
+    (6, 4, 10, 'Spring',   2018, 30), -- CS315
+    (7, 5, 5, 'Spring',   2018, 50), -- CS319
+    (7, 3, 9, 'Spring',   2018, 70), -- CS319 Section 2
+    (8, 3, 3, 'Fall',   2017, 70), -- CS347
+    (9, 3, 7, 'Spring',   2017, 70), -- EE181
+    (10, 1, 4, 'Spring',   2018, 500), -- FIN201
+    (11, 2, 8, 'Spring',   2018, 10), -- HIS351
+    (12, 1, 11, 'Spring',   2018, 500), -- MUS199
+    (13, 4, 1, 'Fall',   2017, 30); -- CS319: sec 2
 
 -- TEACHES 
 INSERT INTO teaches (section_id, instructor_id) VALUES
