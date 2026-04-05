@@ -139,7 +139,7 @@ CREATE TABLE enrollments (
     student_id INT NOT NULL,
     section_id INT NOT NULL,
     grade ENUM('A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F', 'W'),
-    status ENUM('failed', 'passed', 'dropped') NOT NULL,
+    status ENUM('in progress', 'failed', 'passed', 'dropped') NOT NULL,
     FOREIGN KEY (student_id) REFERENCES students(student_id)  ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (section_id) REFERENCES sections(section_id)  ON UPDATE CASCADE ON DELETE RESTRICT
 );
