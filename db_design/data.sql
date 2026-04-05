@@ -79,26 +79,38 @@ INSERT INTO prerequisites (course_id, prereq_id) VALUES
 -- INSTRUCTORS
 INSERT INTO instructors (first_name, last_name, email, salary, dept_id) VALUES
     ('Jack',   'Srinivasan',   'j.srinivasan@university.edu',   65000.00, 2), -- ID 1
-    ('Annabelle',   'Katz',   'a.katz@university.edu',   75000.00, 2),
-    ('Steven',   'Brandt',   's.brandt@university.edu',   92000.00, 2),
     ('Wendy',   'Wu',   'w.wu@university.edu',   90000.00, 4),
-    ('Phoebe',   'Singh',   'p.singh@university.edu',   80000.00, 4),
     ('Wolfgang',   'Mozart',   'w.mozart@university.edu',   40000.00, 6),
     ('Albert',   'Einstein',   'a.einstein@university.edu',   95000.00, 7),
-    ('William',   'Gold',   'w.gold@university.edu',   40000.00, 7),
     ('Michael',   'El Said',   'm.el-said@university.edu',   60000.00, 5),
+    ('William',   'Gold',   'w.gold@university.edu',   40000.00, 7),
+    ('Annabelle',   'Katz',   'a.katz@university.edu',   75000.00, 2),
     ('Zackary',   'Califieri',   'z.califieri@university.edu',   62000.00, 5),
+    ('Phoebe',   'Singh',   'p.singh@university.edu',   80000.00, 4),
     ('Hannah',   'Crick',   'h.crick@university.edu',   72000.00, 1),
+    ('Steven',   'Brandt',   's.brandt@university.edu',   92000.00, 2),
     ('Yimiko',   'Kim',   'y.kim@university.edu',   62000.00, 3); -- ID 12
 
 -- STUDENTS
 INSERT INTO students (first_name, last_name, email, dept_id) VALUES
-    ('Ella',   'Jones',    'ella.jones@university.edu', 1)
-    ;
+    ('Peter',   'Zhang',    'peter.zhang@university.edu', 2), -- ID 1
+    ('Kammi',   'Shankar',    'kammi.shankar@university.edu', 2),
+    ('Elias',   'Brandt',    'elias.brandt@university.edu', 5),
+    ('Randy',   'Chavez',    'randy.chavez@university.edu', 4),
+    ('Claire',   'Peltier',    'claire.peltier@university.edu', 7),
+    ('Oliver',   'Levy',    'oliver.levy@university.edu', 7),
+    ('Amanda',   'Williams',    'amanda.williams@university.edu', 2),
+    ('Franco',   'Sanchez',    'franco.sanchez@university.edu', 6),
+    ('Zara',   'Snow',    'zara.Snow@university.edu', 7),
+    ('Jaxon',   'Brown',    'jaxon.brown@university.edu', 2),
+    ('Mika',   'Aoi',    'mika.aoi@university.edu', 3),
+    ('Victor',   'Bourikas',    'victor.bourikas@university.edu', 3),
+    ('Gio',   'Tanaka',    'gio.tanaka@university.edu', 1); -- ID 13 
 
 -- ADVISORS
 INSERT INTO advisors (student_id, instructor_id) VALUES
-    (1, 1)  -- Ella  → Bob Smith
+    (2, 1),  -- Kammi  → Jack
+    (5, ),
     ;
 
 -- ACCOUNTS
