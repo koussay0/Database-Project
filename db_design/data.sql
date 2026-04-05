@@ -184,7 +184,7 @@ INSERT INTO sections (course_id, classroom_id, timeslot_id, semester, year, capa
     (1, 2, 4, 'Summer',   2017, 10),  -- BIO101: sec 1
     (2, 2, 1, 'Summer',   2018, 10), -- BIO301
     (4, 1, 20, 'Fall',   2017, 500), -- CS101
-    (4, 1, 15, 'Spring',   2018, 500), -- CS101 Section 2
+    (4, 1, 15, 'Spring',   2018, 500), -- CS101 Section 2 in spring
     (5, 3, 13, 'Spring',   2017, 70), -- CS190
     (5, 3, 2, 'Spring',   2017, 70), -- CS190 Section 2
     (6, 4, 10, 'Spring',   2018, 30), -- CS315
@@ -195,14 +195,47 @@ INSERT INTO sections (course_id, classroom_id, timeslot_id, semester, year, capa
     (10, 1, 4, 'Spring',   2018, 500), -- FIN201
     (11, 2, 8, 'Spring',   2018, 10), -- HIS351
     (12, 1, 11, 'Spring',   2018, 500), -- MUS199
-    (13, 4, 1, 'Fall',   2017, 30); -- CS319: sec 2
+    (13, 4, 1, 'Fall',   2017, 30); -- PHY101
 
 -- TEACHES 
 INSERT INTO teaches (section_id, instructor_id) VALUES
-    (1, 1)  -- MATH101 Fall 2024  → Bob Smith
-    ;
+    (3, 1),  -- CS101 Fall 2017  → Jack Srinivasan
+    (7, 1), -- CS315 JS
+    (10, 1), -- CS347 JS
+    (12, 2), -- Wu
+    (14, 3), -- Mozart
+    (15, 4), -- Einstein
+    (13, 5), -- El Said
+    (4, 7),
+    (8, 7),
+    (1, 10), -- Crick
+    (2, 10),
+    (5, 11), -- Brandt
+    (6, 11),
+    (9, 11),
+    (11, 12); -- Kim
 
 -- ENROLLMENTS
 INSERT INTO enrollments (student_id, section_id, grade, status) VALUES
-    (1, 1, 'A', 'current')  -- Ella  in MATH101
-    ;
+    (1, 3, 'A', 'passed'),  -- Zhang in CS101
+    (1, 10, 'A-', 'passed'),
+    (2, 3, 'C', 'passed'),
+    (2, 6, 'A', 'passed'),
+    (2, 7, 'A', 'passed'),
+    (2, 10, 'A', 'passed'),
+    (3, 13, 'B', 'passed'),
+    (4, 12, 'C+', 'passed'),
+    (5, 15, 'B-', 'passed'),
+    (6, 3, 'F', 'failed'),
+    (6, 4, 'B+', 'passed'),
+    (6, 8, 'B', 'passed'),
+    (7, 3, 'A-', 'passed'),
+    (7, 6, 'B+', 'passed'),
+    (8, 14, 'A-', 'passed'),
+    (10, 3, 'A', 'passed'),
+    (10, 9, 'A', 'passed'),
+    (11, 11, 'C', 'passed'),
+    (12, 3, 'C-', 'passed'),
+    (12, 7, 'B', 'passed'),
+    (13, 1, 'A', 'passed'),
+    (13, 2, 'W', 'dropped');
