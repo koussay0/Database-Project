@@ -17,18 +17,18 @@ DELIMETER ;
 -- update an instructor
 DELIMETER //
 CREATE PROCEDURE update_instructor(
-    IN instructor_id INT,
-    IN first_name VARCHAR(50),
-    IN last_name VARCHAR(50),
-    IN email VARCHAR(100),
-    IN salary DECIMAL(12, 2))
+    IN instructor_id1 INT,
+    IN first_name1 VARCHAR(50),
+    IN last_name1 VARCHAR(50),
+    IN email1 VARCHAR(100),
+    IN salary1 DECIMAL(12, 2))
 BEGIN
     UPDATE instructor
-    SET first_name = @first_name,
-        last_name = @last_name,
-        email = @email,
-        salary = @salary
-    WHERE instructor_id = @instructor_id
+    SET first_name = first_name1,
+        last_name = last_name1,
+        email = email1,
+        salary = salary1
+    WHERE instructor_id = instructor_id1
 END
 //
 DELIMETER ;
@@ -163,16 +163,16 @@ CREATE PROCEDURE enrol_in_class(
 BEGIN
     BEGIN TRANSACTION
     -- check if the section has capacity
-    IF (SELECT capacity FROM section WHERE section_id = @section_id) > 0
+    IF (SELECT capacity FROM section WHERE section_id = section_id1) > 0
     BEGIN
         -- insert into enrollment table
         INSERT INTO enrollment (student_id, section_id)
-        VALUES (@student_id, @section_id)
+        VALUES (student_id1, section_id1)
 
         -- decrease the capacity of the section by 1
         UPDATE section
         SET capacity = capacity - 1
-        WHERE section_id = @section_id
+        WHERE section_id = section_id1
         COMMIT TRANSACTION
     END
     ELSE
