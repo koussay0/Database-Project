@@ -1,0 +1,163 @@
+/* AUTHORIZATION STYLES */
+
+body { 
+    font-family: 'Times New Roman', Times, serif;
+    background-color: #f8fafc;
+    margin: 0;
+}
+
+.auth-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+}
+
+.auth-container { 
+    background-color: #e0f2fe; 
+    padding: 40px 60px; 
+    border-radius: 15px; 
+    border: 10px solid #5880b9; 
+    width: 380px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+h2 { 
+    font-size: 2.2rem; 
+    margin: 0 0 25px 0; 
+    font-weight: normal;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+label { 
+    display: block; 
+    margin-bottom: 5px; 
+    font-size: 1.1rem;
+}
+
+input, select { 
+    width: 100%; 
+    padding: 12px; 
+    border: 1px solid #fff; 
+    border-radius: 8px; 
+    box-sizing: border-box; 
+    background-color: #ffffff;
+    font-size: 1rem;
+    font-family: inherit;
+}
+
+select {
+    appearance: none;
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+}
+
+.form-other { 
+    text-align: center; 
+    margin-top: 25px;
+}
+
+.btn-submit { 
+    background-color: #5880b9; 
+    color: white; 
+    padding: 12px 35px; 
+    border: none; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    font-size: 1.1rem;
+    font-family: inherit;
+}
+
+.btn-submit:hover { 
+    background-color: #466796; 
+}
+
+.other-link { 
+    margin-top: 15px; 
+}
+
+.other-link a { 
+    color: #333; 
+    text-decoration: underline;
+    font-size: 0.9rem;
+}
+
+/* NAVBAR STYLES */
+.navbar {
+    background-color: #e0f2fe;
+    border-bottom: 8px solid #5880b9;
+    padding: 10px 40px; 
+    display: flex;
+    justify-content: space-between; 
+    box-sizing: border-box; 
+    padding: 1.3% 2%;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    align-items: center;
+}
+
+.nav-title {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 2.2rem;
+    margin: 0;
+}
+
+.navbar .logout {
+    color: #000000;
+    font-size: 1.5rem;
+    padding: 5px;
+    text-decoration: none;
+}
+.navbar .nav-right {
+    display: flex; 
+    align-items: center; 
+    gap: 20px;
+}
+
+/* DASHBOARDS STYLES */
+
+.dashboard-content {
+    display: flex;
+    flex-wrap: wrap;       
+    justify-content: center; 
+    gap: 30px;             
+    width: 100%;
+    margin-top: 120px; 
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.card {
+    background-color: #e0f2fe;
+    padding: 30px;
+    border-radius: 12px;
+    border: 8px solid #5880b9;
+    width: 600px; 
+    min-height: 300px;
+    text-decoration: none; 
+    color: black;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s;
+}
+.card:hover {
+    transform: translateY(-5px); 
+}
+.card h2 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 3rem;
+    text-align: center;
+}
+.card p {
+    font-size: 1.2rem;
+    text-align: center;
+}

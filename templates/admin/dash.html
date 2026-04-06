@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block page_title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+
+<div class = "dashboard-content">
+
+    <a href="{{ url_for('admin.course') }}" class="card">
+        <h2>COURSES</h2>
+        <p>CRUD</p>
+    </a>
+
+    <a href="{{ url_for('admin.section') }}" class="card">
+        <h2>SECTIONS</h2>
+        <p>CRUD</p>
+    </a>
+
+    <a href="{{ url_for('admin.classroom') }}" class="card">
+        <h2>CLASSROOMS</h2>
+        <p>CRUD</p>
+    </a>
+
+    <a href="{{ url_for('admin.dept') }}" class="card">
+        <h2>DEPARTMENTS</h2>
+        <p>CRUD</p>
+    </a>
+
+    <a href="{{ url_for('admin.timeslot') }}" class="card">
+        <h2>TIMESLOTS</h2>
+        <p>CRUD</p>
+    </a>
+
+    <a href="{{ url_for('admin.instructor') }}" class="card">
+        <h2>INSTRUCTORS</h2>
+        <p>CRUD</p>
+    </a>
+
+    <a href="{{ url_for('admin.student') }}" class="card">
+        <h2>STUDENTS</h2>
+        <p>CRUD</p>
+    </a>
+
+    <a href="{{ url_for('admin.teaching') }}" class="card">
+        <h2>TEACHING ASSIGNMENTS</h2>
+        <p>Assign/modify/remove teachers to classes</p>
+    </a>
+
+<div>
+{% endblock %}
