@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block page_title %}Student Dashboard{% endblock %}
+
+{% block content %}
+
+<div class = "dashboard-content">
+    <a href="{{ url_for('student.courses') }}" class="card">
+        <h2>COURSES</h2>
+        <p>Add/Drop Courses</p>
+    </a>
+
+    <a href="{{ url_for('student.section') }}" class="card">
+        <h2>SECTIONS</h2>
+        <p>Final grades and section information</p>
+    </a>
+
+</div>
+{% endblock %}

@@ -1,5 +1,4 @@
 -- University Database Schema
--- Ravia Bhullar, Khalia Dogan, and Koussay Jaballah
 
 DROP DATABASE IF EXISTS university;
 CREATE DATABASE university CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
