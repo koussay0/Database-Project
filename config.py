@@ -5,7 +5,6 @@ database = pymysql.connect(
     user = "root",
     password = "",
     database = "university",
-    port = 3307
 )
 
 
