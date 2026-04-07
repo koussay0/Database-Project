@@ -1,8 +1,9 @@
+Name: Database Systems Project
 
-Enviroment:
+Set Up Enviroment:
 python3 -m venv venv
 source venv/bin/activate
-Change port in config.py if needed
+Change port in config.py if needed 
 
 Downloads:
 pip install flask
