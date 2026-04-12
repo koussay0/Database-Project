@@ -81,7 +81,6 @@ CREATE TABLE advisors (
     advisor_id INT AUTO_INCREMENT PRIMARY KEY,
     student_id INT NOT NULL,
     instructor_id INT NOT NULL,
-    UNIQUE(student_id),
     FOREIGN KEY (student_id) REFERENCES students(student_id)  ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (instructor_id) REFERENCES instructors(instructor_id)  ON UPDATE CASCADE ON DELETE RESTRICT
 );
