@@ -1,7 +1,53 @@
 {% extends "layout.html" %}
 
-{% block page_title %}Advising Assignments{% endblock %}
+{% block page_title %}Advising{% endblock %}
 
 {% block content %}
-
+<div class="dashboard-content">
+    
+    <div class="card" style="width: 80%;">
+        <h2>Current Advisees</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in advisees %}
+                <tr>
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }} {{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td>
+                        <form method="POST">
+                            <input type="hidden" name="remove_student_id" value="{{ row[0] }}">
+                            <button class="btn-delete" class="btn-submit" >Remove</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="card" style="width: 80%;">
+        <h2>Add New Advisee</h2>
+        <form method="POST" style="display: flex; gap: 20px; align-items: flex-end; width: 100%;">
+            <div class="input-group" style="flex: 1; margin: 0;">
+                <label>Select Student</label>
+                <select name="add_student_id" required>
+                    <option value="" disabled selected>Choose a student</option>
+                    {% for student in all_students %}
+                        <option value="{{ student[0] }}">{{ student[1] }} {{ student[2] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn-submit" style="margin: 0; height: 45px;">Assign Advisee</button>
+        </form>
+    </div>
+</div>
 {% endblock %}

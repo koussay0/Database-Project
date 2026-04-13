@@ -3,5 +3,65 @@
 {% block page_title %}Sections Teaching{% endblock %}
 
 {% block content %}
+<div class="dashboard-content">
+    <div class="card" style="width: 80%;">
+        
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; width: 100%; margin-bottom: 20px;">
+            <h2 style="margin: 0;">My Sections</h2>
+            
+            <form method="GET" action="{{ url_for('instructor.section') }}" style="display: flex; gap: 15px;">
+                <div class="input-group" style="margin: 0;">
+                    <label>Semester</label>
+                    <select name="semester" onchange="this.form.submit()">
+                        <option value="all" {% if selected_semester == 'all' %}selected{% endif %}>All</option>
+                        <option value="Fall" {% if selected_semester == 'Fall' %}selected{% endif %}>Fall</option>
+                        <option value="Spring" {% if selected_semester == 'Spring' %}selected{% endif %}>Spring</option>
+                        <option value="Summer" {% if selected_semester == 'Summer' %}selected{% endif %}>Summer</option>
+                    </select>
+                </div>
 
+                <div class="input-group" style="margin: 0;">
+                    <label>Year</label>
+                    <select name="year" onchange="this.form.submit()">
+                        <option value="all" {% if selected_year == 'all' %}selected{% endif %}>All</option>
+                        {% for y in years %}
+                            <option value="{{ y }}" {% if selected_year|string == y|string %}selected{% endif %}>{{ y }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Course</th>
+                    <th>Time</th>
+                    <th>Term</th>
+                    <th>Capacity</th>
+                    <th>Roster</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in sections %}
+                <tr>
+                    <td> {{ row[1] }}<br><small>{{ row[0] }}</small> </td>
+                    <td>{{ row[2] }} : {{ row[3] }} - {{ row[4] }}</td>
+                    <td>{{ row[5] }} {{ row[6] }}</td>
+                    <td>{{ row[7] }}</td>
+                    <td>
+                        <a href="{{ url_for('instructor.roster', section_id=row[8], course_name =row[1]) }}" class="btn-submit" style="text-decoration: none; display: inline-block; padding: 8px 15px;">
+                            View
+                        </a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td>No teaching assignments found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}

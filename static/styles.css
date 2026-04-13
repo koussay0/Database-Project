@@ -61,21 +61,6 @@ select {
     margin-top: 25px;
 }
 
-.btn-submit { 
-    background-color: #5880b9; 
-    color: white; 
-    padding: 12px 35px; 
-    border: none; 
-    border-radius: 8px; 
-    cursor: pointer; 
-    font-size: 1.1rem;
-    font-family: inherit;
-}
-
-.btn-submit:hover { 
-    background-color: #466796; 
-}
-
 .other-link { 
     margin-top: 15px; 
 }
@@ -120,7 +105,7 @@ select {
     gap: 20px;
 }
 
-/* DASHBOARDS STYLES */
+/* GENERAL STYLES */
 
 .dashboard-content {
     display: flex;
@@ -160,4 +145,85 @@ select {
 .card p {
     font-size: 1.2rem;
     text-align: center;
+}
+
+/* BUTTONS */
+
+.btn-submit { 
+    background-color: #5880b9; 
+    color: white; 
+    padding: 12px 35px; 
+    border: none; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    font-size: 1.1rem;
+    font-family: inherit;
+}
+
+button {
+    padding: 0.5rem 1rem;
+    background: #5880b9;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 1.5rem;
+}
+
+.btn-delete {
+    background-color: #b95858; 
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-family: inherit;
+}
+
+/* TABLES */
+
+table {
+    width: 100%;
+    padding: 1rem; 
+    overflow: hidden; 
+    background-color: #ffffff;
+}
+
+thead { background: #5880b9; color: #ffffff; }
+
+th, td {
+    padding: 0.7rem;
+    text-align: left;
+    border-bottom: 1px solid #ffffff;
+}
+
+/* ANALYTICS STYLES */
+
+.query-row {
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: flex-end;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.result-box {
+    margin-left: auto;
+    align-self: center;
+    color: #2c5282;
+    font-weight: bold;
+    background: white;
+    padding: 8px 15px;
+    border-radius: 4px;
+    border: 1px dashed #5880b9;
+}
+
+.row-label {
+    align-self: center;
+    font-weight: 500;
+    min-width: 150px;
 }

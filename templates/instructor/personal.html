@@ -1,7 +1,55 @@
 {% extends "layout.html" %}
 
-{% block page_title %}INSTRUCTOR Personal Information{% endblock %}
+{% block page_title %}Instructor Profile{% endblock %}
 
 {% block content %}
 
+<div class="card" style= "display: block; margin-top: 100px;">
+
+    <h1>Personal Information</h1>
+    <form method="POST" id="profileForm">
+        <div>
+            <label>ID: {{ data[0] }}</label>
+        </div>
+
+    <div>
+        <label>First Name:</label>
+        <input type="text" name="first_name" id="first_name" value="{{ data[2] }}" readonly>
+    </div>
+
+    <div>
+        <label>Last Name:</label>
+        <input type="text" name="last_name" id="last_name" value="{{ data[3] }}" readonly>
+    </div>
+
+    <div>
+        <label>Username:</label>
+        <input type="text" name="username" id="username" value="{{ data[1] }}" readonly>
+    </div>
+
+    <div>
+        <label>Email:</label>
+        <input type="email" name="email" id="email" value="{{ data[4] }}" readonly>
+    </div>
+
+    <div>
+        <button type="button" id="editBtn" onclick="toggleEdit()">Edit Info</button>
+        <button type="submit" id="saveBtn" style="display: none;">Save Changes</button>
+    </div>
+</form>
+
+<script>
+function toggleEdit() {
+    const inputs = document.querySelectorAll('#profileForm input');
+    const editBtn = document.getElementById('editBtn');
+    const saveBtn = document.getElementById('saveBtn');
+
+    inputs.forEach(input => {
+        input.readOnly = false;
+    });
+
+    editBtn.style.display = 'none';
+    saveBtn.style.display = 'inline-block';
+}
+</script>
 {% endblock %}
