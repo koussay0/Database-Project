@@ -1,7 +1,135 @@
 {% extends "layout.html" %}
 
-{% block page_title %}Instructor Analytics{% endblock %}
+{% block page_title %}Analytics{% endblock %}
 
 {% block content %}
+<div class="dashboard-content">
+    <div class="card" style="width: 80%; align-items: stretch;">
+        <h2>University Analytics</h2>
 
+        <form method="POST" class="query-row">
+            <input type="hidden" name="query" value="dept_avg">
+            <span class="row-label">Average grade from</span>
+            <select name="dept_id" onchange="this.form.submit()" style="flex: 2;">
+                <option value="">Select Department</option>
+                {% for d in depts %}
+                <option value="{{ d[0] }}" {% if inputs.dept_id|string == d[0]|string and query == 'dept_avg' %}selected{% endif %}>{{ d[1] }}</option>
+                {% endfor %}
+            </select>
+            <span class="result-box">
+                {{ result[1] ~ '%' if query == 'dept_avg' and result else 'Result' }}
+            </span>
+        </form>
+
+        <hr style="border: 0; border-top: 1px solid #5880b9; opacity: 0.2; margin: 10px 0;">
+
+        <form method="POST" class="query-row">
+            <input type="hidden" name="query" value="course_avg">
+            <div style="flex: 2;">
+                <label style="font-size: 0.75rem;">Course</label>
+                <select name="course_id" required>
+                    <option value="">Select Course</option>
+                    {% for c in courses %}
+                    <option value="{{ c[0] }}" {% if inputs.course_id|string == c[0]|string %}selected{% endif %}>{{ c[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div style="flex: 1;">
+                <label style="font-size: 0.75rem;">From</label>
+                <select name="start_semester">
+                    {% for s in ['Spring', 'Summer', 'Fall'] %}
+                    <option value="{{ s }}" {% if inputs.start_semester == s %}selected{% endif %}>{{ s }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div style="flex: 1;">
+                <select name="start_year">
+                    {% for y in years %}
+                    <option value="{{ y }}" {% if inputs.start_year|string == y|string %}selected{% endif %}>{{ y }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div style="flex: 1;">
+                <label style="font-size: 0.75rem;">To</label>
+                <select name="end_semester">
+                    {% for s in ['Spring', 'Summer', 'Fall'] %}
+                    <option value="{{ s }}" {% if inputs.end_semester == s %}selected{% endif %}>{{ s }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div style="flex: 1;">
+                <select name="end_year">
+                    {% for y in years %}
+                    <option value="{{ y }}" {% if inputs.end_year|string == y|string %}selected{% endif %}>{{ y }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button type="submit" class="btn-submit" >Go</button>
+            <span class="result-box">
+                {{ result[1] ~ '%' if query == 'course_avg' and result else 'Result' }}
+            </span>
+        </form>
+
+        <hr style="border: 0; border-top: 1px solid #5880b9; opacity: 0.2; margin: 10px 0;">
+
+        <form method="POST" class="query-row">
+            <input type="hidden" name="query" value="performance">
+            <select name="performance_choice" style="width: auto;">
+                <option value="best" {% if inputs.performance_choice == 'best' %}selected{% endif %}>Best</option>
+                <option value="worst" {% if inputs.performance_choice == 'worst' %}selected{% endif %}>Worst</option>
+            </select>
+            <span style="align-self: center;">class average in</span>
+            <select name="semester" style="width: auto;">
+                {% for s in ['Spring', 'Summer', 'Fall'] %}
+                <option value="{{ s }}" {% if inputs.semester == s %}selected{% endif %}>{{ s }}</option>
+                {% endfor %}
+            </select>
+            <select name="year" style="width: auto;">
+                {% for y in years %}
+                <option value="{{ y }}" {% if inputs.year|string == y|string %}selected{% endif %}>{{ y }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn-submit" style="margin-top: 0; height: 42px;">Go</button>
+            <span class="result-box">
+                {{ result[0] ~ ' (' ~ result[1] ~ '%)' if query == 'performance' and result else 'Result' }}
+            </span>
+        </form>
+
+        <hr style="border: 0; border-top: 1px solid #5880b9; opacity: 0.2; margin: 10px 0;">
+
+        <form method="POST" class="query-row">
+            <input type="hidden" name="query" value="total_dept">
+            <span class="row-label">Total students from</span>
+            <select name="dept_id" onchange="this.form.submit()" style="flex: 1;">
+                <option value="">Select Department</option>
+                {% for d in depts %}
+                <option value="{{ d[0] }}" {% if inputs.dept_id|string == d[0]|string and query == 'total_dept' %}selected{% endif %}>{{ d[1] }}</option>
+                {% endfor %}
+            </select>
+            <span class="result-box">
+                {{ result[1] ~ ' Students' if query == 'total_dept' and result else 'Result' }}
+            </span>
+        </form>
+
+        <form method="POST" class="query-row">
+            <input type="hidden" name="query" value="current_dept">
+            <span class="row-label">Current students enrolled in</span>
+            <select name="dept_id" onchange="this.form.submit()" style="flex: 1;">
+                <option value="">Select Department</option>
+                {% for d in depts %}
+                <option value="{{ d[0] }}" {% if inputs.dept_id|string == d[0]|string and query == 'current_dept' %}selected{% endif %}>{{ d[1] }}</option>
+                {% endfor %}
+            </select>
+            <span class="result-box">
+                {{ result[1] ~ ' Students' if query == 'current_dept' and result else 'Result' }}
+            </span>
+        </form>
+
+    </div>
+</div>
 {% endblock %}

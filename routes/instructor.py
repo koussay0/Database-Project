@@ -4,57 +4,6 @@ import config
 instructor_bp = Blueprint("instructor", __name__, url_prefix="/instructor")
 db = config.database
 
-@instructor_bp.route('/additional', methods=['GET', 'POST'])
-def additional():
-    cursor = db.cursor()
-    query = None
-    inputs = {}
-    result= None
-
-    # Dropdowns for dept, courses, years
-    cursor.execute("SELECT dept_id, name FROM departments")
-    depts = cursor.fetchall()
-    cursor.execute("SELECT course_id, course_number FROM courses")
-    courses = cursor.fetchall()
-    cursor.execute("SELECT DISTINCT year FROM sections ORDER BY year DESC")
-    years = [row[0] for row in cursor.fetchall()]
-
-    if request.method == 'POST':
-        query = request.form.get('query')
-        inputs = request.form
-        
-        if query == 'dept_avg':
-            cursor.callproc('average_grade_by_department', [request.form.get('dept_id')])
-            result = cursor.fetchone()
-
-        elif query == 'course_avg':
-            cursor.callproc('avg_course_grade', [
-                request.form.get('course_id'),
-                request.form.get('start_semester'), request.form.get('start_year'),
-                request.form.get('end_semester'), request.form.get('end_year')
-            ])
-            result = cursor.fetchone()
-
-        elif query == 'performance':
-            performance_choice = request.form.get('performance_choice')
-            proc = 'get_best_class' if performance_choice == 'best' else 'get_worst_class'
-            cursor.callproc(proc, [request.form.get('semester'), request.form.get('year')])
-            result = cursor.fetchone()
-
-        elif query == 'total_dept':
-            cursor.callproc('total_students_dept', [request.form.get('dept_id')])
-            result = cursor.fetchone()
-
-        elif query == 'current_dept':
-            cursor.callproc('current_students_dept', [request.form.get('dept_id')])
-            result = cursor.fetchone()
-
-    cursor.close()
-    return render_template("instructor/additional.html", 
-                           depts=depts, courses=courses, years=years, 
-                           result=result, query=query, inputs=inputs)
-
-
 @instructor_bp.route('/roster', methods=["GET", "POST"])
 def roster():
     students = []
@@ -244,3 +193,54 @@ def personal():
 @instructor_bp.route('/dash')
 def dash():
     return render_template("instructor/dash.html")
+
+
+@instructor_bp.route('/additional', methods=['GET', 'POST'])
+def additional():
+    cursor = db.cursor()
+    query = None
+    inputs = {}
+    result= None
+
+    # Dropdowns for dept, courses, years
+    cursor.execute("SELECT dept_id, name FROM departments")
+    depts = cursor.fetchall()
+    cursor.execute("SELECT course_id, course_number FROM courses")
+    courses = cursor.fetchall()
+    cursor.execute("SELECT DISTINCT year FROM sections ORDER BY year DESC")
+    years = [row[0] for row in cursor.fetchall()]
+
+    if request.method == 'POST':
+        query = request.form.get('query')
+        inputs = request.form
+        
+        if query == 'dept_avg':
+            cursor.callproc('average_grade_by_department', [request.form.get('dept_id')])
+            result = cursor.fetchone()
+
+        elif query == 'course_avg':
+            cursor.callproc('avg_course_grade', [
+                request.form.get('course_id'),
+                request.form.get('start_semester'), request.form.get('start_year'),
+                request.form.get('end_semester'), request.form.get('end_year')
+            ])
+            result = cursor.fetchone()
+
+        elif query == 'performance':
+            performance_choice = request.form.get('performance_choice')
+            procedure = 'get_best_class' if performance_choice == 'best' else 'get_worst_class'
+            cursor.callproc(procedure, [request.form.get('semester'), request.form.get('year')])
+            result = cursor.fetchone()
+
+        elif query == 'total_dept':
+            cursor.callproc('total_students_dept', [request.form.get('dept_id')])
+            result = cursor.fetchone()
+
+        elif query == 'current_dept':
+            cursor.callproc('current_students_dept', [request.form.get('dept_id')])
+            result = cursor.fetchone()
+
+    cursor.close()
+    return render_template("instructor/additional.html", 
+                           depts=depts, courses=courses, years=years, 
+                           result=result, query=query, inputs=inputs)
