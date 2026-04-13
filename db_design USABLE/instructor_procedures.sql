@@ -3,20 +3,7 @@
 USE university;
 DELIMITER //
 
--- Submit grades
-
-CREATE PROCEDURE give_grade(
-    IN section_id_n INT,
-    IN student_id_n INT,
-    IN grade_n ENUM('A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F', 'W')
-)
-BEGIN
-    UPDATE enrollments
-    SET grade = grade_n, status = IF(grade_n = 'F', 'failed', 'passed')
-    WHERE section_id = section_id_n AND student_id = student_id_n;
-END //
-
--- Change grades
+-- Submit/change grades
 
 CREATE PROCEDURE change_grade(
     IN section_id_n INT,
@@ -29,38 +16,60 @@ BEGIN
     WHERE section_id = section_id_n AND student_id = student_id_n;
 END //
 
--- Add students as advisor
+-- Add students as advisees
 
 CREATE PROCEDURE add_advisee(
     IN student_id_n INT,
-    IN advisor_id_n INT
+    IN instructor_id_n INT
 )
 BEGIN
-    INSERT INTO advisors (student_id, advisor_id)
-    VALUES (student_id_n, advisor_id_n);
+    INSERT INTO advisors (student_id, instructor_id)
+    VALUES (student_id_n, instructor_id_n);
 END //
 
--- Remove students as advisor
+-- Remove students as advisees
 
 CREATE PROCEDURE remove_advisee(
     IN student_id_n INT,
-    IN advisor_id_n INT
+    IN instructor_id_n INT
 )
 BEGIN
     DELETE FROM advisors
-    WHERE student_id = student_id_n AND advisor_id = advisor_id_n;
+    WHERE student_id = student_id_n 
+      AND instructor_id = instructor_id_n;
+END //
+
+-- View Advisees
+
+CREATE PROCEDURE view_advisees(
+    IN advisor_id_n INT
+)
+BEGIN
+    SELECT DISTINCT students.student_id, students.first_name, students.last_name, departments.name
+    FROM students
+    JOIN advisors ON students.student_id = advisors.student_id
+    JOIN departments ON students.dept_id = departments.dept_id
+    WHERE advisors.instructor_id = advisor_id_n;
 END //
 
 -- Modify course prerequisites
 
-CREATE PROCEDURE modify_prerequisites(
+CREATE PROCEDURE add_course_prerequisite(
     IN course_id_n INT,
-    IN prerequisites_n VARCHAR(255)
+    IN prereq_id_n INT
 )
 BEGIN
-    UPDATE courses
-    SET prerequisites = prerequisites_n
-    WHERE id = course_id_n;
+    INSERT INTO prerequisites (course_id, prereq_id)
+    VALUES (course_id_n, prereq_id_n);
+END //
+
+CREATE PROCEDURE remove_course_prerequisite(
+    IN course_id_n INT,
+    IN prereq_id_n INT
+)
+BEGIN
+    DELETE FROM prerequisites 
+    WHERE course_id = course_id_n AND prereq_id = prereq_id_n;
 END //
 
 -- Remove student from section
@@ -80,27 +89,36 @@ CREATE PROCEDURE check_section_roster(
     IN section_id_n INT
 )
 BEGIN
-    SELECT students.first_name, students.last_name, enrollments.grade
+    SELECT students.student_id,students.first_name, students.last_name, enrollments.grade
     FROM students
     JOIN enrollments ON students.student_id = enrollments.student_id
     WHERE enrollments.section_id = section_id_n;
 END //
 
 -- Check sections teaching based on semester
-
 CREATE PROCEDURE check_sections_teaching(
     IN instructor_id_n INT,
-    IN semester_n ENUM('Fall', 'Spring', 'Summer'),
+    IN semester_n VARCHAR(10), 
     IN year_n INT
 )
 BEGIN
-    SELECT courses.title, courses.course_number, timeslots.day, timeslots.start_time, timeslots.end_time, sections.semester, sections.year, sections.capacity
+    SELECT 
+        courses.title, 
+        courses.course_number, 
+        timeslots.day, 
+        timeslots.start_time, 
+        timeslots.end_time, 
+        sections.semester, 
+        sections.year, 
+        sections.capacity,
+        sections.section_id
     FROM sections
-    JOIN courses ON sections.course_id = courses.id
-    JOIN timeslots ON sections.timeslot_id = timeslots.id
+    JOIN courses ON sections.course_id = courses.course_id
+    JOIN timeslots ON sections.timeslot_id = timeslots.timeslot_id
+    JOIN teaches ON sections.section_id = teaches.section_id
     WHERE teaches.instructor_id = instructor_id_n
-      AND sections.semester = semester_n
-      AND sections.year = year_n;
+      AND (semester_n = 'all' OR sections.semester = semester_n)
+      AND (year_n IS NULL OR sections.year = year_n);
 END //
 
 -- Modify personal information (username, first name, last name, email)
@@ -128,15 +146,159 @@ END //
 
 -- Give average grade of all students based on department
 
+CREATE PROCEDURE average_grade_by_department(
+    IN department_id_n INT
+)
+BEGIN
+    SELECT departments.name,
+        ROUND(AVG(
+            CASE 
+                WHEN enrollments.grade = 'A'  THEN 95
+                WHEN enrollments.grade = 'A-' THEN 91
+                WHEN enrollments.grade = 'B+' THEN 88
+                WHEN enrollments.grade = 'B'  THEN 85
+                WHEN enrollments.grade = 'B-' THEN 81
+                WHEN enrollments.grade = 'C+' THEN 78
+                WHEN enrollments.grade = 'C'  THEN 75
+                WHEN enrollments.grade = 'C-' THEN 71
+                WHEN enrollments.grade = 'D+' THEN 68
+                WHEN enrollments.grade = 'D'  THEN 65
+                WHEN enrollments.grade = 'D-' THEN 61
+                WHEN enrollments.grade = 'F'  THEN 0
+            END
+        ), 2) AS average_grade
+    FROM departments
+    JOIN courses ON departments.dept_id = courses.dept_id
+    JOIN sections ON courses.course_id = sections.course_id
+    JOIN enrollments ON sections.section_id = enrollments.section_id
+    WHERE departments.dept_id = department_id_n
+      AND enrollments.grade IS NOT NULL 
+      AND enrollments.grade != 'W'
+    GROUP BY departments.dept_id, departments.name;
+END //
+
 -- Give average grade of course based on semester range
 
--- Show best performing class (based on grades) for a selected semester
+CREATE PROCEDURE avg_course_grade(
+    IN course_id_n INT, 
+    IN start_semester VARCHAR(10),
+    IN start_year INT,
+    IN end_semester VARCHAR(10), 
+    IN end_year INT
+    )
+BEGIN
+    SELECT courses.title, 
+    ROUND(AVG(
+                CASE 
+                    WHEN enrollments.grade = 'A'  THEN 95
+                    WHEN enrollments.grade = 'A-' THEN 91
+                    WHEN enrollments.grade = 'B+' THEN 88
+                    WHEN enrollments.grade = 'B'  THEN 85
+                    WHEN enrollments.grade = 'B-' THEN 81
+                    WHEN enrollments.grade = 'C+' THEN 78
+                    WHEN enrollments.grade = 'C'  THEN 75
+                    WHEN enrollments.grade = 'C-' THEN 71
+                    WHEN enrollments.grade = 'D+' THEN 68
+                    WHEN enrollments.grade = 'D'  THEN 65
+                    WHEN enrollments.grade = 'D-' THEN 61
+                    WHEN enrollments.grade = 'F'  THEN 0
+                END
+            ), 2) AS average_grade
+    FROM enrollments 
+    JOIN sections ON enrollments.section_id = sections.section_id
+    JOIN courses ON sections.course_id = courses.course_id
+    WHERE courses.course_id = course_id_n AND sections.year BETWEEN start_year AND end_year AND (
+    (sections.year > start_year OR (sections.year = start_year AND sections.semester >= start_semester))
+    AND 
+    (sections.year < end_year OR (sections.year = end_year AND sections.semester <= end_semester))
+)
+    GROUP BY courses.course_id;
+END //
 
--- Show worst performing class (based on grades) for a selected semester
+-- Show best performing class (based on grades) for a selected semester 
+CREATE PROCEDURE get_best_class(
+    IN sem_n VARCHAR(10), 
+    IN year_n INT
+    )
+BEGIN
+    SELECT courses.title, 
+    ROUND(AVG(
+                CASE 
+                    WHEN enrollments.grade = 'A'  THEN 95
+                    WHEN enrollments.grade = 'A-' THEN 91
+                    WHEN enrollments.grade = 'B+' THEN 88
+                    WHEN enrollments.grade = 'B'  THEN 85
+                    WHEN enrollments.grade = 'B-' THEN 81
+                    WHEN enrollments.grade = 'C+' THEN 78
+                    WHEN enrollments.grade = 'C'  THEN 75
+                    WHEN enrollments.grade = 'C-' THEN 71
+                    WHEN enrollments.grade = 'D+' THEN 68
+                    WHEN enrollments.grade = 'D'  THEN 65
+                    WHEN enrollments.grade = 'D-' THEN 61
+                    WHEN enrollments.grade = 'F'  THEN 0
+                END
+            ), 2) AS average_grade
+    FROM enrollments 
+    JOIN sections ON enrollments.section_id = sections.section_id
+    JOIN courses ON sections.course_id = courses.course_id
+    WHERE sections.semester = sem_n AND sections.year = year_n
+    GROUP BY sections.section_id, courses.title
+    ORDER BY average_grade DESC;
+END //
+
+-- Show worst performing class (based on grades) for a selected semester 
+CREATE PROCEDURE get_worst_class(
+    IN sem_n VARCHAR(10), 
+    IN year_n INT
+    )
+BEGIN
+    SELECT courses.title, 
+    ROUND(AVG(
+                CASE 
+                    WHEN enrollments.grade = 'A'  THEN 95
+                    WHEN enrollments.grade = 'A-' THEN 91
+                    WHEN enrollments.grade = 'B+' THEN 88
+                    WHEN enrollments.grade = 'B'  THEN 85
+                    WHEN enrollments.grade = 'B-' THEN 81
+                    WHEN enrollments.grade = 'C+' THEN 78
+                    WHEN enrollments.grade = 'C'  THEN 75
+                    WHEN enrollments.grade = 'C-' THEN 71
+                    WHEN enrollments.grade = 'D+' THEN 68
+                    WHEN enrollments.grade = 'D'  THEN 65
+                    WHEN enrollments.grade = 'D-' THEN 61
+                    WHEN enrollments.grade = 'F'  THEN 0
+                END
+            ), 2) AS average_grade
+    FROM enrollments 
+    JOIN sections ON enrollments.section_id = sections.section_id
+    JOIN courses ON sections.course_id = courses.course_id
+    WHERE sections.semester = sem_n AND sections.year = year_n
+    GROUP BY sections.section_id, courses.title
+    ORDER BY average_grade ASC;
+END //
 
 -- Show total number of students (past and current) according to department
+CREATE PROCEDURE total_students_dept(
+    IN dept_id_n INT
+    )
+BEGIN
+    SELECT departments.name, COUNT(DISTINCT students.student_id)
+    FROM departments
+    JOIN students ON departments.dept_id = students.dept_id
+    WHERE departments.dept_id = dept_id_n;
+END //
 
 -- Show total number of students currently enrolled according to department
-
+CREATE PROCEDURE current_students_dept(
+    IN dept_id_n INT
+    )
+BEGIN
+    SELECT departments.name, COUNT(DISTINCT enrollments.student_id)
+    FROM departments 
+    JOIN courses ON departments.dept_id = courses.dept_id
+    JOIN sections ON courses.course_id = sections.course_id
+    JOIN enrollments ON sections.section_id = enrollments.section_id
+    WHERE departments.dept_id = dept_id_n AND enrollments.status = 'in progress';
+END //
 
 DELIMITER ;
