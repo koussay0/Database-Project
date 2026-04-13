@@ -24,10 +24,6 @@ def dept():
 def instructor():
     return render_template("admin/instructor.html")
 
-@admin_bp.route('/personal')
-def personal():
-    return render_template("admin/personal.html")
-
 @admin_bp.route("/section")
 def section():
     return render_template("admin/section.html")
@@ -43,3 +39,25 @@ def teaching():
 @admin_bp.route('/timeslot')
 def timeslot():
     return render_template("admin/timeslot.html")
+
+@admin_bp.route('/personal', methods = ['GET', 'POST'])
+def personal():
+    account_id = session.get('id')
+    cursor = db.cursor()
+
+    try: 
+        if request.method == 'POST':
+            username = request.form.get('username')
+            try:
+                sql = "UPDATE accounts SET username = %s WHERE account_id = %s"
+                cursor.execute(sql, (username, account_id))
+                db.commit()
+            except:
+                pass
+            return redirect(url_for('admin.personal'))
+        query = "SELECT username FROM accounts WHERE account_id = %s"
+        cursor.execute(query, (account_id,))
+        data = cursor.fetchone()
+        return render_template("admin/personal.html", data=data)
+    finally:
+        cursor.close()

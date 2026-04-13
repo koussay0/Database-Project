@@ -1,7 +1,36 @@
 {% extends "layout.html" %}
 
-{% block page_title %}ADMIN Personal Information{% endblock %}
+{% block page_title %}Admin Profile{% endblock %}
 
 {% block content %}
 
+<div class = "card" style = "display: block; margin-top: 100px;">
+
+    <h1> Personal Information </h1>
+    <form method = "POST" id = "profileForm">
+        <div>
+            <label> Username: </label>
+            <input type = "text" name  = "username" id = "username" value = "{{data[0]}}" readonly>
+        </div>
+
+        <div> 
+            <button type = "button" id = "editBtn" onclick = "toggleEdit()"> Edit Info </button>
+            <button type = "submit" id = "saveBtn" style = "display: none;"> Save Changes </button>
+        </div>
+    </form>
+
+<script> 
+    function toggleEdit() {
+        const inputs = document.querySelectorAll ('#profileForm input');
+        const editBtn = document.getElementById('editBtn');
+        const saveBtn = document.getElementById('saveBtn');
+
+        inputs.forEach(input => {
+            input.readOnly = false;
+        });
+
+    editBtn.style.display = 'none';
+    saveBtn.style.display = 'inline-block';
+}
+</script>
 {% endblock %}
