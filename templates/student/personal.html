@@ -13,8 +13,9 @@
         </div>
 
         <div>
-            <label>Advisor: {{ data[5] }} {{ data[6] }}</label>
+            <label>Advisor: {% if data[5] and data[6] %} {{ data[5] }} {{ data[6] }} {% else %} None {% endif %} </label>
         </div>
+
     <div>
         <label>First Name:</label>
         <input type="text" name="first_name" id="first_name" value="{{ data[2] }}" readonly>

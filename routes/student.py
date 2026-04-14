@@ -40,8 +40,8 @@ def personal():
             FROM accounts
             JOIN student_accounts ON accounts.account_id = student_accounts.account_id
             JOIN students ON student_accounts.student_id = students.student_id
-            JOIN advisors ON advisors.student_id = students.student_id
-            JOIN instructors ON advisors.instructor_id = instructors.instructor_id
+            LEFT JOIN advisors ON advisors.student_id = students.student_id
+            LEFT JOIN instructors ON advisors.instructor_id = instructors.instructor_id
             WHERE accounts.account_id = %s
         """
         cursor.execute(query, (account_id,))
