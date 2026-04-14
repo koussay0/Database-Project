@@ -3,5 +3,95 @@
 {% block page_title %}Course CRUD{% endblock %}
 
 {% block content %}
+<div class="dashboard-content">
+    
+    <div class="card" style="width: 80%;">
+        <h2>Courses</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Number</th>
+                    <th>Title</th>
+                    <th>Credits</th>
+                    <th>Department</th>  
+                    <th>Edit</th>                   
+                    <th>Delete</th>                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in courses %}
+                <tr>
+                    <td>{{ row[0] }}</td>
+                    
+                    {% if edit_id == row[0]|string %}
+                        <form method="POST">
+                            <input type="hidden" name="update_course" value="1">
+                            <input type="hidden" name="course_id" value="{{ row[0] }}">
+                            <td><input type="text" name="course_number" value="{{ row[1] }}" style="width: 80px;"></td>
+                            <td><input type="text" name="title" value="{{ row[2] }}"></td>
+                            <td><input type="number" name="credit" value="{{ row[3] }}" style="width: 50px;"></td>
+                            <td>
+                                <select name="dept_id">
+                                    {% for dept in depts %}
+                                        <option value="{{ dept[0] }}" {% if dept[1] == row[4] %}selected{% endif %}>
+                                            {{ dept[1] }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td>
+                                <button type="submit" class="btn-submit" style="text-decoration: none; padding: 5px 10px;">Save</button>
+                                <a href="{{ url_for('admin.course') }}" style="text-decoration: none; color:black; font-size: 0.8em; margin-left: 5px;">Cancel</a>
+                            </td>
+                        </form>
+                    {% else %}
+                        <td>{{ row[1] }}</td>
+                        <td>{{ row[2] }}</td>
+                        <td>{{ row[3] }}</td>
+                        <td>{{ row[4] }}</td>
+                        <td>
+                            <a href="{{ url_for('admin.course', edit_id=row[0]) }}" class="btn-submit" style="text-decoration: none; padding: 5px 10px;">Edit</a>
+                        </td>
+                    {% endif %}
 
+                    <td>
+                        <form method="POST">
+                            <input type="hidden" name="remove_course" value="{{ row[0] }}">
+                            <button type="submit" class="btn-delete">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card" style="width: 80%;">
+        <h2>Add New Course</h2>
+        <form method="POST">
+            <input type="hidden" name="add_course" value="1"> 
+            
+            <label>Course Number</label>
+            <input type="text" name="course_number" required>
+
+            <label>Title</label>
+            <input type="text" name="title" required>
+
+            <label>Credits</label>
+            <input type="number" name="credit" required> 
+            
+            <label>Department</label>
+            <select name="dept_id" required>
+                <option value="" disabled selected>Select Department</option>
+                {% for dept in depts %}
+                    <option value="{{ dept[0] }}">{{ dept[1] }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" class="btn-submit">Add Course</button>
+        </form>
+    </div>
+
+</div>
 {% endblock %}
