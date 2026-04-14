@@ -1,46 +1,77 @@
-# STUDENT STORED PROCEDURES
-
-USE university;
+-- Register Class
 DELIMITER //
-
--- Add class
-
-CREATE PROCEDURE enroll_student_in_section(
-    IN student_id_n INT,
-    IN section_id_n INT
+CREATE PROCEDURE registerClass (
+    IN s_ID INT,
+    IN s_section INT
 )
 BEGIN
-    INSERT INTO enrollments (student_id, section_id, grade, status)
-    VALUES (student_id_n, section_id_n, NULL, 'in progress');
+    INSERT INTO enrollments (student_id, course_id, grade, status)
+    VALUES (s_ID, s_section, NULL, 'in progress');
 END //
 
--- Drop class
-
-CREATE PROCEDURE drop_class(
-    IN student_id_n INT,
-    IN section_id_n INT
+-- Drop Class
+CREATE PROCEDURE drop_class (
+    IN s_ID INT,
+    IN s_section INT
 )
 BEGIN
+    -- to show that a course is dropped it won't disappear normally from transcript so values need to be changed
     UPDATE enrollments
-    SET status = 'dropped', grade = 'W'
-    WHERE student_id = student_id_n AND section_id = section_id_n;
+    SET status = 'dropped',
+        grade = 'W'
+    where student.student_id = s_ID and section.section_id = s_section;
 END //
 
--- Check final grade for section
+-- Show Final Grades
+CREATE PROCEDURE show_final_grades (
+    IN s_ID INT
+)
+BEGIN
+    select * from enrollments
+    where student.student_id = s_ID and enrollment.status != 'in progress';
+END //
 
--- Check courses based on semester, including status
+-- Check courses based on semester including status
+CREATE PROCEDURE check_section_info(
+    IN s_ID INT,
+    IN s_semester VARCHAR(10)
+)
+BEGIN
+    select * courses, enrollments.status
+    from courses
+    JOIN sections ON sections.course_id = courses.course_id
+    JOIN enrollment ON enrollment.section_id = sections.section_id
+    where s_ID = enrollments.student_id and s_semester = sections.semester;
+END //
 
--- Check for section information
+-- Section info
+CREATE PROCEDURE check_section_info(
+    IN sec_ID INT
+)
+BEGIN
+    SELECT DISTINCT * sections
+    from sections
+    where sec_ID = sections.section_id;
+END //
 
--- Check for advisor information
+-- Advisor info
+CREATE PROCEDURE check_advisor(
+    IN a_ID INT
+)
+BEGIN
+    SELECT DISTINCT instructors.instructor_id, instructors.first_name, instructors.last_name, instructors.dept_id
+    FROM instructors
+    JOIN advisors on instructors.instructor_id = advisors.instructor_id
+    where a_ID = advisors.instructor_id;
+END //
 
--- Modify personal information (username, first name, last name, email)
+-- Modify Student Info
 CREATE PROCEDURE modify_student_info(
-    IN account_id_n INT,
-    IN username_n VARCHAR(50),
-    IN first_name_n VARCHAR(50),
-    IN last_name_n VARCHAR(50),
-    IN email_n VARCHAR(100)
+    IN account_id INT,
+    IN username VARCHAR(50),
+    IN first_name VARCHAR(50),
+    IN last_name VARCHAR(50),
+    IN email VARCHAR(100)
 )
 BEGIN
     UPDATE accounts 
@@ -56,4 +87,4 @@ BEGIN
 
 END //
 
-DELIMITER ;
+DELIMITER;
