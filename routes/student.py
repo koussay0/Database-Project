@@ -8,13 +8,40 @@ db = config.database
 def courses():
     return render_template("student/courses.html")
 
-@student_bp.route('/dash')
-def dash():
-    return render_template("student/dash.html")
-
 @student_bp.route('/section')
 def section():
-    return render_template("student/section.html")
+    account_id = session.get('id')
+    semester = request.args.get('semester', 'all')
+    year_in = request.args.get('year', 'all')
+    
+    # Accounts for 'all' input for year
+    year = int(year_in) if year_in.isdigit() else None
+    
+    all_sections = []
+    years = []
+    cursor = db.cursor()
+
+    try:
+        cursor.execute("SELECT student_id FROM student_accounts WHERE account_id = %s", [account_id])
+        student = cursor.fetchone()
+        student_id = student[0]
+
+        # Dropdown years
+        cursor.execute("SELECT DISTINCT year FROM sections ORDER BY year DESC")
+        years = [row[0] for row in cursor.fetchall()]
+
+        cursor.callproc('get_student_courses', (student_id, semester, year))
+        all_sections = cursor.fetchall() 
+    except:
+        pass
+    finally:
+        cursor.close()
+
+    return render_template("student/section.html", 
+                           sections=all_sections, 
+                           years=years, 
+                           selected_semester=semester, 
+                           selected_year=year_in)
 
 @student_bp.route('/personal', methods = ['GET', 'POST'])
 def personal():
@@ -50,3 +77,7 @@ def personal():
         return render_template("student/personal.html", data=data)
     finally:
         cursor.close()
+
+@student_bp.route('/dash')
+def dash():
+    return render_template("student/dash.html")

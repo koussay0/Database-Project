@@ -26,7 +26,7 @@ BEGIN
     WHERE student_id = student_id_n AND section_id = section_id_n;
 END //
 
--- Check courses based on semester, including status + Check final grade for section
+-- Check courses based on semester, including status + Check final grade for section + Check for section information
 
 CREATE PROCEDURE get_student_courses(
     IN student_id_n INT,
@@ -35,51 +35,28 @@ CREATE PROCEDURE get_student_courses(
 )
 BEGIN
     SELECT 
+        sections.section_id, 
         courses.course_number, 
         courses.title, 
-        sections.section_id, 
-        sections.semester,
-        sections.year,
         enrollments.status, 
         enrollments.grade, 
-        courses.credits
+        sections.semester,
+        sections.year,
+        courses.credits,
+        buildings.name,
+        classrooms.room_number,
+        timeslots.day,
+        timeslots.start_time,
+        timeslots.end_time
     FROM enrollments 
     JOIN sections ON enrollments.section_id = sections.section_id
     JOIN courses ON sections.course_id = courses.course_id
-    WHERE enrollments.student_id = student_id_n 
-    AND sections.semester = semester_n 
-    AND sections.year = year_n;
-    ORDER BY 
-        sections.year DESC, 
-        CASE sections.semester
-            WHEN 'Summer' THEN 1
-            WHEN 'Spring' THEN 2
-            WHEN 'Fall' THEN 3
-        END ASC;
-END //
-
--- Check for section information
-
-CREATE PROCEDURE get_section_info(
-    IN section_id_n INT
-)
-BEGIN
-    SELECT 
-        courses.title, 
-        courses.course_number, 
-        sections.semester, 
-        sections.year, 
-        buildings.name, 
-        classrooms.room_number, 
-        timeslots.day, 
-        timeslots.start_time, 
-        timeslots.end_time
-    FROM sections
-    JOIN courses ON sections.course_id = courses.course_id
-    LEFT JOIN classrooms ON sections.classroom_id = classrooms.classroom_id
+    LEFT JOIN classrooms on sections.classroom_id = classrooms.classroom_id
     LEFT JOIN buildings ON classrooms.building_id = buildings.building_id
     LEFT JOIN timeslots ON sections.timeslot_id = timeslots.timeslot_id
-    WHERE sections.section_id = section_id_n;
+    WHERE enrollments.student_id = student_id_n 
+      AND (semester_n = 'all' OR sections.semester = semester_n)
+      AND (year_n IS NULL OR sections.year = year_n);
 END //
 
 -- Check for advisor information --> hardcoded into student.py 'personal' route
