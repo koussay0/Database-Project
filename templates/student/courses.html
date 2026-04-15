@@ -1,7 +1,61 @@
 {% extends "layout.html" %}
 
-{% block page_title %}Courses Taking{% endblock %}
+{% block page_title %}Add Drop Courses{% endblock %}
 
 {% block content %}
+<div class="dashboard-content">
+    
+    <div class="card" style="width: 80%;">
+        <h2>Courses</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Course</th>
+                    <th>Time</th> 
+                    <th>Location</th> 
+                    <th>Status</th>
+                    <th>Drop</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in enrolled_courses %}
+                <tr>
+                    <td> {{ row[1] }}<br><small>{{ row[2] }}</small> </td>
+                    <td>{{ row[10] }} | ({{ row[11] }} - {{ row[12] }} )</td>
+                    <td> {{ row[9] }} {{ row[8] }}  </td>
+                    <td>{{ row[3] }}</td>
+                    <td>
+                        {% if row[3] != 'dropped' %}
+                        <form method="POST">
+                            <input type="hidden" name="remove_section_id" value="{{ row[0] }}">
+                            <button class="btn-delete" class="btn-submit">Drop</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="5">No courses found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
+    <div class="card" style="width: 80%;">
+        <h2>Register For Course</h2>
+        <form method="POST" style="display: flex; gap: 20px; align-items: flex-end; width: 100%;">
+            <div class="input-group" style="flex: 1; margin: 0;">
+                <label>Select Section </label>
+                <select name="add_section_id" required>
+                    <option value="" disabled selected>Choose a section</option>
+                    {% for section in all_sections %}
+                        <option value="{{ section[0] }}">
+                            {{ section[1] }} - {{ section[2] }} | {{ section[4] }} {{ section[3] }} | {{ section[5] }} ({{ section[6]}} - {{section[7]}})
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn-submit" style="margin: 0; height: 45px;">Register</button>
+        </form>
+    </div>
+</div>
 {% endblock %}

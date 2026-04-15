@@ -4,9 +4,57 @@ import config
 student_bp = Blueprint("student", __name__, url_prefix="/student")
 db = config.database
 
-@student_bp.route('/courses')
+@student_bp.route('/courses', methods=['GET', 'POST'])
 def courses():
-    return render_template("student/courses.html")
+    account_id = session.get('id')
+    cursor = db.cursor()
+    
+    cursor.execute("SELECT student_id FROM student_accounts WHERE account_id = %s", [account_id])
+    student = cursor.fetchone()
+    student_id = student[0]
+
+    if request.method == 'POST':
+        if 'add_section_id' in request.form:
+            section_id = request.form.get('add_section_id')
+            cursor.callproc('enroll_student_in_section', [student_id, section_id])
+        elif 'remove_section_id' in request.form:
+            section_id = request.form.get('remove_section_id')
+            cursor.callproc('drop_class', [student_id, section_id])
+        db.commit()
+        return redirect(url_for('student.courses'))
+
+    # Show courses
+    cursor.callproc('get_student_courses', (student_id, 'all', None))
+    enrolled_courses = cursor.fetchall()
+
+    # dropdown to add course/section
+    cursor.execute("""
+        SELECT 
+            s.section_id, 
+            c.course_number, 
+            c.title, 
+            b.name, 
+            cl.room_number, 
+            t.day, 
+            t.start_time, 
+            t.end_time
+        FROM sections s
+        JOIN courses c ON s.course_id = c.course_id
+        LEFT JOIN classrooms cl ON s.classroom_id = cl.classroom_id
+        LEFT JOIN buildings b ON cl.building_id = b.building_id
+        LEFT JOIN timeslots t ON s.timeslot_id = t.timeslot_id
+        WHERE s.section_id NOT IN (
+            SELECT section_id 
+            FROM enrollments 
+            WHERE student_id = %s AND status != 'dropped'
+        )
+    """, [student_id])
+    all_sections = cursor.fetchall()
+
+    cursor.close()
+    return render_template("student/courses.html", 
+                           enrolled_courses=enrolled_courses, 
+                           all_sections=all_sections)
 
 @student_bp.route('/section')
 def section():
