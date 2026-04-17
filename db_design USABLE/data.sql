@@ -1,23 +1,21 @@
--- Insert University Table Data 
-
 USE university;
 
 -- BUILDINGS
 INSERT INTO buildings (name) VALUES
-    ('Watson'), -- ID 1
-    ('Taylor'), -- ID 2
-    ('Painter'), -- ID 3
-    ('Packard'); -- ID 4
+    ('Watson'),
+    ('Taylor'),
+    ('Painter'),
+    ('Packard');
 
 -- DEPARTMENTS
 INSERT INTO departments (name, budget, building_id) VALUES
-    ('Biology', 90000.00, 1), -- ID 1
+    ('Biology', 90000.00, 1),
     ('Comp Sci.', 100000.00, 2),
     ('Elec. Eng.', 85000.00, 2),
     ('Finance', 120000.00, 3),
     ('History', 50000.00, 3),
     ('Music', 80000.00, 4),
-    ('Physics', 70000.00, 1); -- ID 7
+    ('Physics', 70000.00, 1);
 
 -- CLASSROOMS
 INSERT INTO classrooms (building_id, room_number, capacity) VALUES
@@ -31,24 +29,24 @@ INSERT INTO classrooms (building_id, room_number, capacity) VALUES
 INSERT INTO timeslots (day, start_time, end_time) VALUES
     ('F', '08:00:00', '08:50:00'),
     ('M', '08:00:00', '08:50:00'),
-    ('W', '08:00:00', '08:50:00'), -- ID A (1-3)
+    ('W', '08:00:00', '08:50:00'),
     ('F', '09:00:00', '09:50:00'),
     ('M', '09:00:00', '09:50:00'),
-    ('W', '09:00:00', '09:50:00'), -- ID B (4-6)
+    ('W', '09:00:00', '09:50:00'),
     ('F', '11:00:00', '11:50:00'),
     ('M', '11:00:00', '11:50:00'),
-    ('W', '11:00:00', '11:50:00'), -- ID C (7-9)
+    ('W', '11:00:00', '11:50:00'),
     ('F', '13:00:00', '13:50:00'),
     ('M', '13:00:00', '13:50:00'),
-    ('W', '13:00:00', '13:50:00'), -- ID D (10-12)
+    ('W', '13:00:00', '13:50:00'),
     ('R', '10:30:00', '11:45:00'),
-    ('T', '10:30:00', '11:45:00'), -- ID E (13-14)
+    ('T', '10:30:00', '11:45:00'),
     ('R', '14:30:00', '15:45:00'),
-    ('T', '14:30:00', '15:45:00'), -- ID F (15-16)
+    ('T', '14:30:00', '15:45:00'),
     ('F', '16:00:00', '16:50:00'),
     ('M', '16:00:00', '16:50:00'),
-    ('W', '16:00:00', '16:50:00'), -- ID G (17-19)
-    ('W', '10:00:00', '12:30:00'); -- ID H (20)
+    ('W', '16:00:00', '16:50:00'),
+    ('W', '10:00:00', '12:30:00');
 
 -- COURSES
 INSERT INTO courses (dept_id, course_number, title, credits) VALUES
@@ -74,42 +72,49 @@ INSERT INTO prerequisites (course_id, prereq_id) VALUES
     (6, 4),
     (7, 4),
     (8, 4),
-    (9, 13); 
+    (9, 13);
 
 -- INSTRUCTORS
 INSERT INTO instructors (first_name, last_name, email, salary, dept_id) VALUES
-    ('Jack',   'Srinivasan',   'j.srinivasan@university.edu',   65000.00, 2), -- ID 1
-    ('Wendy',   'Wu',   'w.wu@university.edu',   90000.00, 4),
-    ('Wolfgang',   'Mozart',   'w.mozart@university.edu',   40000.00, 6),
-    ('Albert',   'Einstein',   'a.einstein@university.edu',   95000.00, 7),
-    ('Michael',   'El Said',   'm.el-said@university.edu',   60000.00, 5),
-    ('William',   'Gold',   'w.gold@university.edu',   40000.00, 7),
-    ('Annabelle',   'Katz',   'a.katz@university.edu',   75000.00, 2),
-    ('Zackary',   'Califieri',   'z.califieri@university.edu',   62000.00, 5),
-    ('Phoebe',   'Singh',   'p.singh@university.edu',   80000.00, 4),
-    ('Hannah',   'Crick',   'h.crick@university.edu',   72000.00, 1),
-    ('Steven',   'Brandt',   's.brandt@university.edu',   92000.00, 2),
-    ('Yimiko',   'Kim',   'y.kim@university.edu',   62000.00, 3); -- ID 12
+    ('Jack', 'Srinivasan', 'j.srinivasan@university.edu', 65000.00, 2),
+    ('Wendy', 'Wu', 'w.wu@university.edu', 90000.00, 4),
+    ('Wolfgang', 'Mozart', 'w.mozart@university.edu', 40000.00, 6),
+    ('Albert', 'Einstein', 'a.einstein@university.edu', 95000.00, 7),
+    ('Michael', 'El Said', 'm.el-said@university.edu', 60000.00, 5),
+    ('William', 'Gold', 'w.gold@university.edu', 40000.00, 7),
+    ('Annabelle', 'Katz', 'a.katz@university.edu', 75000.00, 2),
+    ('Zackary', 'Califieri', 'z.califieri@university.edu', 62000.00, 5),
+    ('Phoebe', 'Singh', 'p.singh@university.edu', 80000.00, 4),
+    ('Hannah', 'Crick', 'h.crick@university.edu', 72000.00, 1),
+    ('Steven', 'Brandt', 's.brandt@university.edu', 92000.00, 2),
+    ('Yimiko', 'Kim', 'y.kim@university.edu', 62000.00, 3),
+    ('Grace', 'Hopper', 'g.hopper@university.edu', 105000.00, 2),
+    ('Gregor', 'Mendel', 'g.mendel@university.edu', 68000.00, 1),
+    ('Marie', 'Curie', 'm.curie@university.edu', 98000.00, 7),
+    ('Adam', 'Smith', 'a.smith@university.edu', 110000.00, 4);
 
 -- STUDENTS
 INSERT INTO students (first_name, last_name, email, dept_id) VALUES
-    ('Peter',   'Zhang',    'peter.zhang@university.edu', 2), -- ID 1
-    ('Kammi',   'Shankar',    'kammi.shankar@university.edu', 2),
-    ('Elias',   'Brandt',    'elias.brandt@university.edu', 5),
-    ('Randy',   'Chavez',    'randy.chavez@university.edu', 4),
-    ('Claire',   'Peltier',    'claire.peltier@university.edu', 7),
-    ('Oliver',   'Levy',    'oliver.levy@university.edu', 7),
-    ('Amanda',   'Williams',    'amanda.williams@university.edu', 2),
-    ('Franco',   'Sanchez',    'franco.sanchez@university.edu', 6),
-    ('Zara',   'Snow',    'zara.snow@university.edu', 7),
-    ('Jaxon',   'Brown',    'jaxon.brown@university.edu', 2),
-    ('Mika',   'Aoi',    'mika.aoi@university.edu', 3),
-    ('Victor',   'Bourikas',    'victor.bourikas@university.edu', 3),
-    ('Gio',   'Tanaka',    'gio.tanaka@university.edu', 1); -- ID 13 
+    ('Peter', 'Zhang', 'peter.zhang@university.edu', 2),
+    ('Kammi', 'Shankar', 'kammi.shankar@university.edu', 2),
+    ('Elias', 'Brandt', 'elias.brandt@university.edu', 5),
+    ('Randy', 'Chavez', 'randy.chavez@university.edu', 4),
+    ('Claire', 'Peltier', 'claire.peltier@university.edu', 7),
+    ('Oliver', 'Levy', 'oliver.levy@university.edu', 7),
+    ('Amanda', 'Williams', 'amanda.williams@university.edu', 2),
+    ('Franco', 'Sanchez', 'franco.sanchez@university.edu', 6),
+    ('Zara', 'Snow', 'zara.snow@university.edu', 7),
+    ('Jaxon', 'Brown', 'jaxon.brown@university.edu', 2),
+    ('Mika', 'Aoi', 'mika.aoi@university.edu', 3),
+    ('Victor', 'Bourikas', 'victor.bourikas@university.edu', 3),
+    ('Gio', 'Tanaka', 'gio.tanaka@university.edu', 1),
+    ('Ada', 'Lovelace', 'ada.l@university.edu', 2),
+    ('Charles', 'Darwin', 'c.darwin@university.edu', 1),
+    ('Leonardo', 'DaVinci', 'leo.dv@university.edu', 6);
 
 -- ADVISORS
 INSERT INTO advisors (student_id, instructor_id) VALUES
-    (2, 1),  -- Kammi  → Jack
+    (2, 1),
     (5, 4),
     (6, 4),
     (1, 7),
@@ -121,43 +126,44 @@ INSERT INTO advisors (student_id, instructor_id) VALUES
 
 -- SECTIONS
 INSERT INTO sections (course_id, classroom_id, timeslot_id, semester, year, capacity) VALUES
-    (1, 2, 4, 'Summer',   2017, 10),  -- BIO101: sec 1
-    (2, 2, 1, 'Summer',   2018, 10), -- BIO301
-    (4, 1, 20, 'Fall',   2017, 500), -- CS101
-    (4, 1, 15, 'Spring',   2018, 500), -- CS101 Section 2 in spring
-    (5, 3, 13, 'Spring',   2017, 70), -- CS190
-    (5, 3, 2, 'Spring',   2017, 70), -- CS190 Section 2
-    (6, 4, 10, 'Spring',   2018, 30), -- CS315
-    (7, 5, 5, 'Spring',   2018, 50), -- CS319
-    (7, 3, 9, 'Spring',   2018, 70), -- CS319 Section 2
-    (8, 3, 3, 'Fall',   2017, 70), -- CS347
-    (9, 3, 7, 'Spring',   2017, 70), -- EE181
-    (10, 1, 4, 'Spring',   2018, 500), -- FIN201
-    (11, 2, 8, 'Spring',   2018, 10), -- HIS351
-    (12, 1, 11, 'Spring',   2018, 500), -- MUS199
-    (13, 4, 1, 'Fall',   2017, 30); -- PHY101
+    (1, 2, 4, 'Summer', 2017, 10),
+    (2, 2, 1, 'Summer', 2018, 10),
+    (4, 1, 20, 'Fall', 2017, 500),
+    (4, 1, 15, 'Spring', 2018, 500),
+    (5, 3, 13, 'Spring', 2017, 70),
+    (6, 3, 2, 'Spring', 2017, 70),
+    (7, 5, 5, 'Spring', 2018, 50),
+    (7, 3, 9, 'Spring', 2018, 70),
+    (8, 3, 3, 'Fall', 2017, 70),
+    (9, 3, 7, 'Spring', 2017, 70),
+    (10, 1, 4, 'Spring', 2018, 500),
+    (11, 2, 8, 'Spring', 2018, 10),
+    (12, 1, 11, 'Spring', 2018, 500),
+    (13, 4, 1, 'Fall', 2017, 30),
+    (6, 4, 10, 'Spring', 2018, 30),
+    (4, 1, 20, 'Fall', 2025, 500),
+    (8, 3, 16, 'Spring', 2026, 70),
+    (11, 2, 8, 'Fall', 2025, 10),
+    (1, 2, 4, 'Spring', 2026, 30),
+    (10, 1, 4, 'Fall', 2025, 500),
+    (13, 4, 1, 'Spring', 2026, 30),
+    (1, 4, 8, 'Fall', 2025, 30),
+    (9, 3, 6, 'Fall', 2025, 70),
+    (13, 4, 5, 'Fall', 2025, 30),
+    (10, 1, 11, 'Spring', 2026, 500),
+    (12, 1, 13, 'Spring', 2026, 500),
+    (6, 3, 18, 'Spring', 2026, 70);
 
--- TEACHES 
+-- TEACHES
 INSERT INTO teaches (section_id, instructor_id) VALUES
-    (3, 1),  -- CS101 Fall 2017  → Jack Srinivasan
-    (7, 1), -- CS315 JS
-    (10, 1), -- CS347 JS
-    (12, 2), -- Wu
-    (14, 3), -- Mozart
-    (15, 4), -- Einstein
-    (13, 5), -- El Said
-    (4, 7),
-    (8, 7),
-    (1, 10), -- Crick
-    (2, 10),
-    (5, 11), -- Brandt
-    (6, 11),
-    (9, 11),
-    (11, 12); -- Kim
+    (3, 1), (7, 1), (10, 1), (12, 2), (14, 3), (15, 4), (13, 5), (4, 7), (8, 7), (1, 10), (2, 10), (5, 11), (6, 11), (9, 11), (11, 12),
+    (16, 13), (17, 1), (18, 5), (19, 14), (20, 16), (21, 15),
+    (22, 14), (23, 12), (24, 15),
+    (25, 9), (26, 3), (27, 11);
 
 -- ENROLLMENTS
 INSERT INTO enrollments (student_id, section_id, grade, status) VALUES
-    (1, 3, 'A', 'passed'),  -- Zhang in CS101
+    (1, 3, 'A', 'passed'),
     (1, 10, 'A-', 'passed'),
     (2, 3, 'C', 'passed'),
     (2, 6, 'A', 'passed'),
@@ -178,4 +184,91 @@ INSERT INTO enrollments (student_id, section_id, grade, status) VALUES
     (12, 3, 'C-', 'passed'),
     (12, 7, NULL, 'in progress'),
     (13, 1, 'A', 'passed'),
-    (13, 2, 'W', 'dropped');
+    (13, 2, 'W', 'dropped'),
+    (1, 16, 'A', 'passed'),
+    (2, 16, 'A-', 'passed'),
+    (7, 16, 'A', 'passed'),
+    (3, 18, 'C-', 'passed'),
+    (8, 18, 'D+', 'passed'),
+    (13, 18, 'F', 'failed'),
+    (11, 17, NULL, 'in progress'),
+    (12, 17, NULL, 'in progress'),
+    (4, 20, 'B+', 'passed'),
+    (2, 20, 'A', 'passed'),
+    (5, 21, 'B-', 'passed'),
+    (6, 21, 'C+', 'passed'),
+    (13, 19, 'B', 'passed'),
+    (10, 19, 'A-', 'passed'),
+    (14, 16, NULL, 'in progress'),
+    (9, 14, 'B+', 'passed'),
+    (9, 15, 'A', 'passed'),
+    (15, 1, 'A', 'passed'),
+    (15, 2, 'B+', 'passed'),
+    (16, 12, 'A-', 'passed'),
+    (16, 13, 'B', 'passed'),
+    (5, 14, 'A-', 'passed'),
+    (6, 14, 'C+', 'passed'),
+    (11, 10, 'B', 'passed'),
+    (12, 10, 'B+', 'passed'),
+    (8, 13, 'B+', 'passed'),
+    (9, 13, 'A-', 'passed'),
+    (3, 12, 'B', 'passed'),
+    (8, 12, 'C+', 'passed'),
+    (4, 11, 'A', 'passed'),
+    (9, 11, 'B-', 'passed'),
+    (5, 16, 'B', 'passed'),
+    (6, 16, 'C', 'passed'),
+    (9, 16, 'A-', 'passed'),
+    (10, 16, 'B+', 'passed'),
+    (4, 18, 'B+', 'passed'),
+    (9, 18, 'A', 'passed'),
+    (15, 18, 'B', 'passed'),
+    (1, 20, 'A', 'passed'),
+    (7, 20, 'B-', 'passed'),
+    (9, 20, 'C+', 'passed'),
+    (14, 20, 'B', 'passed'),
+    (13, 22, 'A', 'passed'),
+    (15, 22, 'A-', 'passed'),
+    (5, 22, 'B+', 'passed'),
+    (6, 22, 'C', 'passed'),
+    (9, 22, 'B', 'passed'),
+    (11, 23, 'A', 'passed'),
+    (12, 23, 'B+', 'passed'),
+    (1, 23, 'B', 'passed'),
+    (2, 23, 'A-', 'passed'),
+    (7, 23, 'C+', 'passed'),
+    (5, 24, 'A', 'passed'),
+    (6, 24, 'B', 'passed'),
+    (9, 24, 'A-', 'passed'),
+    (14, 24, 'C+', 'passed'),
+    (15, 24, 'B+', 'passed'),
+    (1, 17, 'B+', 'passed'),
+    (2, 17, 'A', 'passed'),
+    (7, 17, 'B', 'passed'),
+    (10, 17, 'A-', 'passed'),
+    (14, 17, 'A', 'passed'),
+    (5, 19, 'A-', 'passed'),
+    (6, 19, 'B', 'passed'),
+    (15, 19, 'A', 'passed'),
+    (16, 19, 'C+', 'passed'),
+    (9, 21, 'B+', 'passed'),
+    (14, 21, 'A-', 'passed'),
+    (15, 21, 'A', 'passed'),
+    (4, 25, 'A', 'passed'),
+    (1, 25, 'B+', 'passed'),
+    (7, 25, 'A-', 'passed'),
+    (9, 25, 'B', 'passed'),
+    (16, 25, 'C+', 'passed'),
+    (8, 26, 'A', 'passed'),
+    (16, 26, 'A-', 'passed'),
+    (4, 26, 'B+', 'passed'),
+    (3, 26, 'B', 'passed'),
+    (9, 26, 'C', 'passed'),
+    (2, 27, 'A', 'passed'),
+    (10, 27, 'B+', 'passed'),
+    (14, 27, 'A', 'passed'),
+    (7, 27, 'B-', 'passed'),
+    (12, 27, 'C+', 'passed'),
+    (14, 3, 'A', 'passed'),
+    (14, 9, 'B+', 'passed'),
+    (14, 11, 'A-', 'passed');
