@@ -271,4 +271,8 @@ INSERT INTO enrollments (student_id, section_id, grade, status) VALUES
     (12, 27, 'C+', 'passed'),
     (14, 3, 'A', 'passed'),
     (14, 9, 'B+', 'passed'),
+    (16, 3, 'F', 'failed'),
+    (16, 4, NULL, 'in progress'),
+    (1, 24, 'F', 'failed'),
+    (1, 21, NULL, 'in progress'),
     (14, 11, 'A-', 'passed');
