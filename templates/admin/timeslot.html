@@ -3,5 +3,90 @@
 {% block page_title %}Timeslot CRUD{% endblock %}
 
 {% block content %}
+<div class="dashboard-content">
+    
+    <div class="card" style="width: 80%;">
+        <h2>Timeslots</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Day</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Edit</th>                   
+                    <th>Delete</th>                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in timeslots %}
+                <tr>
+                    {% if edit_id == row[0]|string %}
+                        <form method="POST">
+                            <input type="hidden" name="update_timeslot" value="1">
+                            <input type="hidden" name="timeslot_id" value="{{ row[0] }}">
+                            <td>
+                                <select name="day">
+                                    {% for d in [('M', 'Monday'), ('T', 'Tuesday'), ('W', 'Wednesday'), ('R', 'Thursday'), ('F', 'Friday')] %}
+                                        <option value="{{ d[0] }}" {% if row[1] == d[0] %}selected{% endif %}>
+                                            {{ d[1] }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td><input type="time" name="start_time" value="{{ row[2] }}" required></td>
+                            <td><input type="time" name="end_time" value="{{ row[3] }}" required></td>
+                            <td>
+                                <button type="submit" class="btn-submit" style="text-decoration: none; padding: 5px 10px;">Save</button>
+                                <a href="{{ url_for('admin.timeslot') }}" style="text-decoration: none; color:black; font-size: 0.8em; margin-left: 5px;">Cancel</a>
+                            </td>
+                        </form>
+                    {% else %}
+                        <td>{{ row[0] }}</td>                   
+                        <td>{{ row[1] }}</td>
+                        <td>{{ row[2] }}</td>
+                        <td>{{ row[3] }}</td>
+                        <td>
+                            <a href="{{ url_for('admin.timeslot', edit_id=row[0]) }}" class="btn-submit" style="text-decoration: none; padding: 5px 10px;">Edit</a>
+                        </td>
+                    {% endif %}
 
+                    <td>
+                        <form method="POST">
+                            <input type="hidden" name="remove_timeslot" value="{{ row[0] }}">
+                            <button type="submit" class="btn-delete">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card" style="width: 80%;">
+        <h2>Add New Timeslot</h2>
+        <form method="POST" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <input type="hidden" name="add_timeslot" value="1"> 
+            
+            <label>Day of Week</label>
+            <select name="day" required>
+                <option value="" disabled selected>Select Day</option>
+                <option value="M">Monday</option>
+                <option value="T">Tuesday</option>
+                <option value="W">Wednesday</option>
+                <option value="R">Thursday</option>
+                <option value="F">Friday</option>
+            </select>
+
+            <label>Start Time</label>
+            <input type="time" name="start_time" required>
+
+            <label>End Time</label>
+            <input type="time" name="end_time" required>
+
+            <span></span> <button type="submit" class="btn-submit">Add Timeslot</button>
+        </form>
+    </div>
+
+</div>
 {% endblock %}

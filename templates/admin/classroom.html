@@ -3,5 +3,89 @@
 {% block page_title %}Classroom CRUD{% endblock %}
 
 {% block content %}
+<div class="dashboard-content">
+    
+    <div class="card" style="width: 80%;">
+        <h2>Classrooms</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Building</th>
+                    <th>Room Number</th>
+                    <th>Capacity</th>
+                    <th>Edit</th>                   
+                    <th>Delete</th>                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in classrooms %}
+                <tr>
+                    <td>{{ row[0] }}</td>
+                    
+                    {% if edit_id == row[0]|string %}
+                        <form method="POST">
+                            <input type="hidden" name="update_classroom" value="1">
+                            <input type="hidden" name="classroom_id" value="{{ row[0] }}">
+                            <td>
+                                <select name="building_id">
+                                    {% for b in buildings %}
+                                        <option value="{{ b[0] }}" {% if b[1] == row[1] %}selected{% endif %}>
+                                            {{ b[1] }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td><input type="text" name="room_number" value="{{ row[2] }}" style="width: 80px;"></td>
+                            <td><input type="number" name="capacity" value="{{ row[3] }}" style="width: 60px;"></td>
+                            <td>
+                                <button type="submit" class="btn-submit" style="text-decoration: none; padding: 5px 10px;">Save</button>
+                                <a href="{{ url_for('admin.classroom') }}" style="text-decoration: none; color:black; font-size: 0.8em; margin-left: 5px;">Cancel</a>
+                            </td>
+                        </form>
+                    {% else %}
+                        <td>{{ row[1] }}</td>
+                        <td>{{ row[2] }}</td>
+                        <td>{{ row[3] }}</td>
+                        <td>
+                            <a href="{{ url_for('admin.classroom', edit_id=row[0]) }}" class="btn-submit" style="text-decoration: none; padding: 5px 10px;">Edit</a>
+                        </td>
+                    {% endif %}
 
+                    <td>
+                        <form method="POST">
+                            <input type="hidden" name="remove_classroom" value="{{ row[0] }}">
+                            <button type="submit" class="btn-delete">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card" style="width: 80%;">
+        <h2>Add New Classroom</h2>
+        <form method="POST" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <input type="hidden" name="add_classroom" value="1"> 
+            
+            <label>Building</label>
+            <select name="building_id" required>
+                <option value="" disabled selected>Select Building</option>
+                {% for b in buildings %}
+                    <option value="{{ b[0] }}">{{ b[1] }}</option>
+                {% endfor %}
+            </select>
+
+            <label>Room Number</label>
+            <input type="text" name="room_number" required>
+
+            <label>Capacity</label>
+            <input type="number" name="capacity" required> 
+            
+            <span></span> <button type="submit" class="btn-submit">Add Classroom</button>
+        </form>
+    </div>
+
+</div>
 {% endblock %}

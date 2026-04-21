@@ -1,7 +1,62 @@
 {% extends "layout.html" %}
 
-{% block page_title %}Teaching Assignments{% endblock %}
+{% block page_title %}Instructor Teaching Assignments{% endblock %}
 
 {% block content %}
-
+<div class="dashboard-content">
+    <div class="card" style="width: 95%;"> <h2>Instructor Teaching Assignments</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 20%;">Instructor</th>
+                    <th style="width: 40%;">Sections Teaching</th>
+                    <th style="width: 40%;">Assign Section</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for inst in instructors %}
+                <tr>
+                    <td>
+                        {{ inst[1] }} {{ inst[2] }}
+                    </td>
+                    <td>
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        {% if inst[0] in teaching_map %}
+                            {% for sec_id, sec_label in teaching_map[inst[0]] %}
+                                <form method="POST" style="margin: 0;">
+                                    <input type="hidden" name="instructor_id" value="{{ inst[0] }}">
+                                    <input type="hidden" name="section_id" value="{{ sec_id }}">
+                                    <button type="submit" name="remove" style="background: #e0f2fe; border: 1px solid #5880b9; color: black; padding: 5px 8px; cursor: pointer; font-family: inherit; border-radius: 4px;">
+                                        {{ sec_label }}
+                                    </button>
+                                </form>
+                            {% endfor %}
+                        {% else %}
+                            <small style="color: #ccc;">No assignments</small>
+                        {% endif %}
+                        </div>
+                    </td>
+                    <td>
+                        <form method="POST" style="display: flex; flex-direction: column; gap: 8px;">
+                            <input type="hidden" name="instructor_id" value="{{ inst[0] }}">
+                            <div style="display: flex; gap: 5px;">
+                                <select name="section_id" required style="padding: 6px; flex-grow: 1; max-width: 350px; font-size: 0.85rem;">
+                                    <option value="">Select Section</option>
+                                    {% for s in all_sections %}
+                                        <option value="{{ s[0] }}">
+                                            {{ s[1] }} ({{ s[2] }} {{ s[3] }}) | 
+                                            {{ s[6] }} {{ s[7] }} - {{ s[8] }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                                <button type="submit" name="add" style="padding: 6px 12px; cursor: pointer;">Add</button>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}

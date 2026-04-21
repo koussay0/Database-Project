@@ -3,5 +3,145 @@
 {% block page_title %}Section CRUD{% endblock %}
 
 {% block content %}
+<div class="dashboard-content">
+    
+    <div class="card" style="width: 80%;">
+        <h2>Sections</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Course</th>
+                    <th>Classroom</th>
+                    <th>Timeslot</th>
+                    <th>Term</th>
+                    <th>Capacity</th>
+                    <th>Edit</th>                   
+                    <th>Delete</th>                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in sections %}
+                <tr>
+                    {% if edit_id == row[0]|string %}
+                        <form method="POST">
+                            <input type="hidden" name="update_section" value="1">
+                            <input type="hidden" name="section_id" value="{{ row[0] }}">
+                            
+                            <td>
+                                <select name="course_id">
+                                    {% for c in all_courses %}
+                                    <option value="{{ c[0] }}" {% if c[1] == row[2] %}selected{% endif %}>{{ c[1] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
 
+                            <td>
+                                <select name="classroom_id">
+                                    {% for r in all_rooms %}
+                                    <option value="{{ r[0] }}" {% if r[1] == row[3] and r[2] == row[4] %}selected{% endif %}>
+                                        {{ r[1] }} - {{ r[2] }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+
+                            <td>
+                                <select name="timeslot_id">
+                                    {% for t in all_timeslots %}
+                                    <option value="{{ t[0] }}" {% if t[1] == row[5] and t[2]|string == row[6]|string %}selected{% endif %}>
+                                        {{ t[1] }} | {{ t[2] }}-{{ t[3] }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+
+                            <td>
+                                <select name="semester" style="width: auto;">
+                                    <option {% if row[8] == 'Fall' %}selected{% endif %}>Fall</option>
+                                    <option {% if row[8] == 'Spring' %}selected{% endif %}>Spring</option>
+                                    <option {% if row[8] == 'Summer' %}selected{% endif %}>Summer</option>
+                                </select>
+                                <input type="number" name="year" value="{{ row[9] }}" style="width: 65px;">
+                            </td>
+
+                            <td><input type="number" name="capacity" value="{{ row[10] }}" style="width: 55px;"></td>
+
+                            <td>
+                                <button type="submit" class="btn-submit" style="text-decoration: none; padding: 5px 10px;">Save</button>
+                                <a href="{{ url_for('admin.section') }}" style="text-decoration: none; color:black; font-size: 0.8em; display: block; margin-top: 5px;">Cancel</a>
+                            </td>
+                        </form>
+                    {% else %}
+                        <td> {{ row[0] }} </td>
+                        <td>{{ row[2] }}<br><small>{{ row[1] }}</small></td>
+                        <td><strong>{{ row[3] }}</strong> - {{ row[4] }}</td>
+                        <td>{{ row[5] }} | {{ row[6] }}-{{ row[7] }}</td>
+                        <td>{{ row[8] }} {{ row[9] }}</td>
+                        <td>{{ row[10] }}</td>
+                        <td>
+                            <a href="{{ url_for('admin.section', edit_id=row[0]) }}" class="btn-submit" style="text-decoration: none; padding: 5px 10px;">Edit</a>
+                        </td>
+                    {% endif %}
+
+                    <td>
+                        <form method="POST">
+                            <input type="hidden" name="remove_section" value="{{ row[0] }}">
+                            <button type="submit" class="btn-delete">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card" style="width: 80%;">
+        <h2>Add New Section</h2>
+        <form method="POST" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <input type="hidden" name="add_section" value="1"> 
+            
+            <label>Course</label>
+            <select name="course_id" required>
+                <option value="" disabled selected>Select Course</option>
+                {% for c in all_courses %}
+                    <option value="{{ c[0] }}">{{ c[1] }}</option>
+                {% endfor %}
+            </select>
+
+            <label>Classroom</label>
+            <select name="classroom_id" required>
+                <option value="" disabled selected>Select Classroom</option>
+                {% for r in all_rooms %}
+                    <option value="{{ r[0] }}">{{ r[1] }} - {{ r[2] }}</option>
+                {% endfor %}
+            </select>
+
+            <label>Timeslot</label>
+            <select name="timeslot_id" required>
+                <option value="" disabled selected>Select Timeslot</option>
+                {% for t in all_timeslots %}
+                    <option value="{{ t[0] }}">{{ t[1] }} | {{ t[2] }}-{{ t[3] }}</option>
+                {% endfor %}
+            </select>
+
+            <label>Semester</label>
+            <select name="semester" required>
+                <option value="" disabled selected>Select Semester</option>
+                <option>Fall</option>
+                <option>Spring</option>
+                <option>Summer</option>
+            </select>
+
+            <label>Year</label>
+            <input type="number" name="year" value="2026" required>
+
+            <label>Capacity</label>
+            <input type="number" name="capacity" required>
+
+            <button type="submit" class="btn-submit" style="grid-column: span 2;">Create Section</button>
+        </form>
+    </div>
+
+</div>
 {% endblock %}

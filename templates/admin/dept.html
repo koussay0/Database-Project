@@ -3,5 +3,89 @@
 {% block page_title %}Department CRUD{% endblock %}
 
 {% block content %}
+<div class="dashboard-content">
+    
+    <div class="card" style="width: 80%;">
+        <h2>Departments</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Budget</th>
+                    <th>Building</th>
+                    <th>Edit</th>                   
+                    <th>Delete</th>                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in departments %}
+                <tr>
+                    <td>{{ row[0] }}</td>
+                    
+                    {% if edit_id == row[0]|string %}
+                        <form method="POST">
+                            <input type="hidden" name="update_department" value="1">
+                            <input type="hidden" name="dept_id" value="{{ row[0] }}">
+                            <td><input type="text" name="name" value="{{ row[1] }}" style="width: 150px;"></td>
+                            <td><input type="number" step="0.01" name="budget" value="{{ row[2] }}" style="width: 100px;"></td>
+                            <td>
+                                <select name="building_id">
+                                    {% for b in buildings %}
+                                        <option value="{{ b[0] }}" {% if b[1] == row[3] %}selected{% endif %}>
+                                            {{ b[1] }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td>
+                                <button type="submit" class="btn-submit" style="text-decoration: none; padding: 5px 10px;">Save</button>
+                                <a href="{{ url_for('admin.dept') }}" style="text-decoration: none; color:black; font-size: 0.8em; margin-left: 5px;">Cancel</a>
+                            </td>
+                        </form>
+                    {% else %}
+                        <td>{{ row[1] }}</td>
+                        <td>${{ "{:,.2f}".format(row[2]) }}</td>
+                        <td>{{ row[3] }}</td>
+                        <td>
+                            <a href="{{ url_for('admin.dept', edit_id=row[0]) }}" class="btn-submit" style="text-decoration: none; padding: 5px 10px;">Edit</a>
+                        </td>
+                    {% endif %}
 
+                    <td>
+                        <form method="POST">
+                            <input type="hidden" name="remove_department" value="{{ row[0] }}">
+                            <button type="submit" class="btn-delete">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card" style="width: 80%;">
+        <h2>Add New Department</h2>
+        <form method="POST" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <input type="hidden" name="add_department" value="1"> 
+            
+            <label>Department Name</label>
+            <input type="text" name="name" required>
+
+            <label>Budget</label>
+            <input type="number" step="0.01" name="budget" required>
+
+            <label>Building</label>
+            <select name="building_id" required>
+                <option value="" disabled selected>Select Building</option>
+                {% for b in buildings %}
+                    <option value="{{ b[0] }}">{{ b[1] }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" class="btn-submit">Add Department</button>
+        </form>
+    </div>
+
+</div>
 {% endblock %}

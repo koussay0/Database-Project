@@ -69,11 +69,11 @@
 
     <div class="card" style="width: 80%;">
         <h2>Add New Course</h2>
-        <form method="POST">
+        <form method="POST" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
             <input type="hidden" name="add_course" value="1"> 
             
             <label>Course Number</label>
-            <input type="text" name="course_number" required>
+            <input type="text" name="course_number" required class="wide-input">
 
             <label>Title</label>
             <input type="text" name="title" required>

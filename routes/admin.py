@@ -305,7 +305,8 @@ def teaching():
             b.name, 
             r.room_number, 
             t.day, 
-            t.start_time
+            t.start_time,
+            t.end_time
         FROM sections s
         JOIN courses c ON s.course_id = c.course_id
         LEFT JOIN classrooms r ON s.classroom_id = r.classroom_id
