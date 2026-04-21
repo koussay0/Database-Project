@@ -110,7 +110,10 @@ INSERT INTO students (first_name, last_name, email, dept_id) VALUES
     ('Gio', 'Tanaka', 'gio.tanaka@university.edu', 1),
     ('Ada', 'Lovelace', 'ada.l@university.edu', 2),
     ('Charles', 'Darwin', 'c.darwin@university.edu', 1),
-    ('Leonardo', 'DaVinci', 'leo.dv@university.edu', 6);
+    ('Leonardo', 'DaVinci', 'leo.dv@university.edu', 6),
+    ('Leon', 'Kennedy', 'leon.k@university.edu', 1), -- 17
+    ('Pete', 'Lovelace', 'pete.l@university.edu', 5), -- 18
+    ('Jason', 'Voorhees', 'jason.v@university.edu', 4); -- 19
 
 -- ADVISORS
 INSERT INTO advisors (student_id, instructor_id) VALUES
@@ -282,4 +285,8 @@ INSERT INTO enrollments (student_id, section_id, grade, status) VALUES
     (16, 4, NULL, 'in progress'),
     (1, 24, 'F', 'failed'),
     (1, 21, NULL, 'in progress'),
+    (17, 1, 'A+', 'passed'),
+    (17, 2, NULL, 'in progress'),
+    (18, 12, NULL, 'in progress'),
+    (18, 18, 'B-', 'passed'),
     (14, 11, 'A-', 'passed');
