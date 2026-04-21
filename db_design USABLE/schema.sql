@@ -97,16 +97,16 @@ CREATE TABLE accounts (
 CREATE TABLE student_accounts(
     account_id INT PRIMARY KEY,
     student_id INT UNIQUE,
-    FOREIGN KEY(account_id) REFERENCES accounts(account_id) ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY(student_id) REFERENCES students(student_id) ON UPDATE CASCADE ON DELETE CASCADE
+    FOREIGN KEY(account_id) REFERENCES accounts(account_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    FOREIGN KEY(student_id) REFERENCES students(student_id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 -- INSTRUCTOR ACCOUNTS
 CREATE TABLE instructor_accounts(
     account_id INT PRIMARY KEY,
     instructor_id INT UNIQUE,
-    FOREIGN KEY(account_id) REFERENCES accounts(account_id) ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY(instructor_id) REFERENCES instructors(instructor_id) ON UPDATE CASCADE ON DELETE CASCADE
+    FOREIGN KEY(account_id) REFERENCES accounts(account_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    FOREIGN KEY(instructor_id) REFERENCES instructors(instructor_id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 -- SECTIONS
@@ -119,8 +119,8 @@ CREATE TABLE sections (
     year INT NOT NULL,
     capacity INT NOT NULL,
     FOREIGN KEY (course_id) REFERENCES courses(course_id) ON UPDATE CASCADE ON DELETE RESTRICT,
-    FOREIGN KEY (classroom_id) REFERENCES classrooms(classroom_id) ON UPDATE CASCADE ON DELETE SET NULL,
-    FOREIGN KEY (timeslot_id) REFERENCES timeslots(timeslot_id) ON UPDATE CASCADE ON DELETE SET NULL
+    FOREIGN KEY (classroom_id) REFERENCES classrooms(classroom_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    FOREIGN KEY (timeslot_id) REFERENCES timeslots(timeslot_id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 -- TEACHES
@@ -139,6 +139,6 @@ CREATE TABLE enrollments (
     section_id INT NOT NULL,
     grade ENUM('A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F', 'W'),
     status ENUM('in progress', 'failed', 'passed', 'dropped') NOT NULL,
-    FOREIGN KEY (student_id) REFERENCES students(student_id)  ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (student_id) REFERENCES students(student_id)  ON UPDATE CASCADE ON DELETE RESTRICT,
     FOREIGN KEY (section_id) REFERENCES sections(section_id)  ON UPDATE CASCADE ON DELETE RESTRICT
 );

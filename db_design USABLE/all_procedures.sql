@@ -660,19 +660,21 @@ BEGIN
     WHERE departments.dept_id = dept_id_n;
 END //
 
--- Show total number of students currently enrolled according to department
+-- Show current number of students currently enrolled according to department
 CREATE PROCEDURE current_students_dept(
     IN dept_id_n INT
     )
 BEGIN
-    SELECT departments.name, COUNT(DISTINCT enrollments.student_id)
+    SELECT 
+        departments.name, 
+        COUNT(DISTINCT students.student_id)
     FROM departments 
-    JOIN courses ON departments.dept_id = courses.dept_id
-    JOIN sections ON courses.course_id = sections.course_id
-    JOIN enrollments ON sections.section_id = enrollments.section_id
-    WHERE departments.dept_id = dept_id_n AND enrollments.status = 'in progress';
+    JOIN students ON departments.dept_id = students.dept_id
+    JOIN enrollments ON students.student_id = enrollments.student_id
+    WHERE departments.dept_id = dept_id_n 
+      AND enrollments.status = 'in progress'
+    GROUP BY departments.name;
 END //
-
 
 ############# STUDENT STORED PROCEDURES #############
 
