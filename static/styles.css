@@ -227,3 +227,26 @@ th, td {
     font-weight: 500;
     min-width: 150px;
 }
+
+
+table input[type="text"], 
+table input[type="number"], 
+table input[type="email"], 
+table input[type="time"], 
+table select {
+    width: 100%; 
+    padding: 8px !important; 
+    margin: 0;
+    box-sizing: border-box; 
+    font-size: 0.95rem;
+    border: 1px solid #cbd5e0;
+    min-width: 80px;
+}
+
+table input[name*="email"] { min-width: 180px; }
+table input[name*="name"] { min-width: 120px; }
+table input[type="number"] { min-width: 70px; }
+
+th, td {
+    border-bottom: 1px solid #e2e8f0;
+}
