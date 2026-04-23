@@ -25,9 +25,19 @@
         </div>
     </nav>
 
-    <main class="dashboard-content">
-        {% block content %}{% endblock %}
-    </main>
-
+        <main class="dashboard-content">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="error-container">
+                    {% for message in messages %}
+                        <div class="error">
+                        {{ message }}
+                        </div>
+                    {% endfor %}
+                    </div>
+                {% endif %}
+                {% endwith %}
+                {% block content %}{% endblock %}
+        </main>
 </body>
 </html>

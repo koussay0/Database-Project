@@ -250,3 +250,20 @@ table input[type="number"] { min-width: 70px; }
 th, td {
     border-bottom: 1px solid #e2e8f0;
 }
+/* ERRORS */
+
+.error-container {
+    margin-top: 20px;
+    margin-bottom: -50px;
+}
+
+.error {
+    padding: 10px;
+    margin-bottom: 0px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: #521b1b;
+    background-color: #e9b6b6;
+}
+
+
