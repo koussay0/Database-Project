@@ -52,16 +52,19 @@
                     </form>
                 </td>
                 
-                <td>
-                    {% if edit_id == student[0]|string %}
-                        <a href="{{ url_for('instructor.roster', section_id=section_id, course_name = course_name) }}" style="text-decoration: none; color: black; font-size: 0.9em;">Cancel</a>
-                    {% else %}
-                        <a class="submit" href="{{ url_for('instructor.roster', section_id=section_id,course_name = course_name, edit_id=student[0]) }}" 
-                           style="padding: 0.5rem 1rem; background: #5880b9; color: #fff; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block;">
-                           Update Grade
-                        </a>
-                    {% endif %}
-                </td>
+            <td>
+                {% if student[3] == 'W' %}
+                    <button type="button" class="btn-disabled" disabled>Update Grade</button>
+                {% elif edit_id == student[0]|string %}
+                    <a href="{{ url_for('instructor.roster', section_id=section_id, course_name=course_name) }}" 
+                    style="text-decoration: none; color: black; font-size: 0.9em;">Cancel</a>
+                {% else %}
+                    <a class="submit" href="{{ url_for('instructor.roster', section_id=section_id, course_name=course_name, edit_id=student[0]) }}" 
+                    style="padding: 0.5rem 1rem; background: #5880b9; color: #fff; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block;">
+                    Update Grade
+                    </a>
+                {% endif %}
+            </td>
             </tr>
             {% else %}
             <tr>

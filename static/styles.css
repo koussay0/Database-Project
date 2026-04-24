@@ -182,6 +182,17 @@ button {
     font-family: inherit;
 }
 
+.btn-disabled {
+    padding: 0.5rem 1rem;
+    background-color: #cccccc; 
+    color: #666666;          
+    border: none;
+    border-radius: 5px;
+    cursor: not-allowed;     
+    display: inline-block;
+    font-size: 1rem;
+    font-family: inherit;
+}
 /* TABLES */
 
 table {
